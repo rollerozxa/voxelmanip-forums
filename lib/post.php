@@ -246,7 +246,7 @@ HTML;
 	$pdate = dateformat($post['date']);
 	$uid = $post['uid'];
 
-	$regdate = date('Y-m-d', $post['uregdate']);
+	$joined = date('Y-m-d', $post['ujoined']);
 	$lastpost = ($post['ulastpost'] ? timeunits(time() - $post['ulastpost']) : 'none');
 	$lastview = timeunits(time() - $post['ulastview']);
 
@@ -277,7 +277,7 @@ HTML;
 		<td class="b n1 sfont sidebar sidebar{$uid} nom">
 			$ranktext$usertitle$picture
 			<br>Posts: {$post['uposts']}<br>
-			<br>Since: $regdate<br>
+			<br>Since: $joined<br>
 			<br>Last post: $lastpost
 			<br>Last view: $lastview
 		</td>

@@ -96,7 +96,7 @@ function userfields($tbl = '', $pf = '') {
 }
 
 function userfields_post() {
-	$ufields = ['posts','regdate','lastpost','lastview','rankset','title','usepic','head','sign','signsep'];
+	$ufields = ['posts','joined','lastpost','lastview','rankset','title','usepic','head','sign','signsep'];
 	$fieldlist = '';
 	foreach ($ufields as $field)
 		$fieldlist .= "u.$field u$field,";

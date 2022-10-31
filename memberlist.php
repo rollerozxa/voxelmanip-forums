@@ -14,7 +14,7 @@ $sortby = ($orderby == 'a' ? " ASC" : " DESC");
 
 $order = 'posts' . $sortby;
 if ($sort == 'name') $order = 'name' . $sortby;
-if ($sort == 'reg') $order = 'regdate' . $sortby;
+if ($sort == 'reg') $order = 'joined' . $sortby;
 
 $where = (is_numeric($pow) ? "WHERE powerlevel = $pow" : '');
 
@@ -73,7 +73,7 @@ for ($i = 1; $user = $users->fetch(); $i++) {
 		<td class="b center"><?=$user['id'] ?>.</td>
 		<td class="b center"><?=$picture ?></td>
 		<td class="b"><?=userlink($user) ?></td>
-		<td class="b center"><?=dateformat($user['regdate']) ?></td>
+		<td class="b center"><?=dateformat($user['joined']) ?></td>
 		<td class="b center"><?=$user['posts'] ?></td>
 	</tr><?php
 }

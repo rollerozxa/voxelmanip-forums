@@ -9,7 +9,7 @@ if (!$user) error("This user does not exist!");
 
 pageheader("Profile for ".$user['name']);
 
-$days = (time() - $user['regdate']) / 86400;
+$days = (time() - $user['joined']) / 86400;
 
 $thread = $sql->fetch("SELECT p.id, t.title ttitle, f.title ftitle, t.forum FROM forums f
 	LEFT JOIN threads t ON t.forum = f.id LEFT JOIN posts p ON p.thread = t.id
@@ -90,7 +90,7 @@ $profilefields = [
 		'Group'		=> powIdToName($user['powerlevel']),
 		'Total posts'	=> sprintf('%s (%1.02f per day)', $user['posts'], $user['posts'] / $days),
 		'Total threads'=> sprintf('%s (%1.02f per day)' ,$user['threads'], $user['threads'] / $days),
-		'Registered on'=> dateformat($user['regdate']).' ('.timeunits($days * 86400).' ago)',
+		'Registered on'=> dateformat($user['joined']).' ('.timeunits($days * 86400).' ago)',
 		'Last post'	=>($user['lastpost'] ? dateformat($user['lastpost'])." (".timeunits(time()-$user['lastpost'])." ago)" : "None").$lastpostlink,
 		'Last view'	=> sprintf(
 				'%s (%s ago) %s %s',

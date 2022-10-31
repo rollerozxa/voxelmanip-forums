@@ -3,9 +3,9 @@ require('lib/common.php');
 
 $act = $_POST['action'] ?? null;
 if ($act == 'Login') {
-	$logindata = $sql->fetch("SELECT id,pass,token FROM users WHERE name = ?", [$_POST['name']]);
+	$logindata = $sql->fetch("SELECT id,password,token FROM users WHERE name = ?", [$_POST['name']]);
 
-	if ($logindata && password_verify($_POST['pass'], $logindata['pass'])) {
+	if ($logindata && password_verify($_POST['pass'], $logindata['password'])) {
 		setcookie('token', $logindata['token'], 2147483647);
 		redirect('./');
 	} else {

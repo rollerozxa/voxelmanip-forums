@@ -141,15 +141,15 @@ CREATE TABLE `threadsread` (
 
 
 CREATE TABLE `users` (
-  `id` mediumint(9) unsigned NOT NULL AUTO_INCREMENT,
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(32) NOT NULL,
-  `pass` varchar(64) NOT NULL,
+  `password` varchar(64) NOT NULL,
   `token` varchar(64) DEFAULT NULL,
-  `posts` mediumint(9) unsigned NOT NULL DEFAULT 0,
-  `threads` mediumint(9) unsigned NOT NULL DEFAULT 0,
-  `regdate` int(11) unsigned NOT NULL DEFAULT 0,
-  `lastpost` int(11) unsigned NOT NULL DEFAULT 0,
-  `lastview` int(11) unsigned NOT NULL DEFAULT 0,
+  `posts` mediumint(8) unsigned NOT NULL DEFAULT 0,
+  `threads` mediumint(8) unsigned NOT NULL DEFAULT 0,
+  `joined` int(10) unsigned NOT NULL DEFAULT 0,
+  `lastpost` int(10) unsigned NOT NULL DEFAULT 0,
+  `lastview` int(10) unsigned NOT NULL DEFAULT 0,
   `lastforum` int(10) unsigned NOT NULL DEFAULT 0,
   `ip` varchar(15) NOT NULL DEFAULT '0.0.0.0',
   `url` varchar(255) NOT NULL DEFAULT '',
@@ -177,4 +177,4 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
--- 2022-07-11 14:55:57
+-- 2022-10-31 13:43:32

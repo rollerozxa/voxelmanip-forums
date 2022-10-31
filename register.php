@@ -23,7 +23,7 @@ if ($act == 'Register') {
 
 	if (empty($err)) {
 		$token = bin2hex(random_bytes(32));
-		$res = $sql->query("INSERT INTO users (`name`,pass,token,regdate,lastview,ip,timezone) VALUES (?,?,?,?,?,?,?);",
+		$res = $sql->query("INSERT INTO users (`name`,password,token,joined,lastview,ip,timezone) VALUES (?,?,?,?,?,?,?);",
 			[$name, password_hash($_POST['pass'], PASSWORD_DEFAULT), $token, time(), time(), $userip, $timezone]);
 
 		$id = $sql->insertid();

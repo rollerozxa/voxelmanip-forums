@@ -114,7 +114,7 @@ if ($act == 'Edit profile') {
 			$fields['rankset'] = $_POST['rankset'];
 
 		if ($pass) {
-			$fields['pass'] = password_hash($pass, PASSWORD_DEFAULT);
+			$fields['password'] = password_hash($pass, PASSWORD_DEFAULT);
 			$fields['token'] = $newtoken;
 		}
 
