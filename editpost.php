@@ -8,8 +8,11 @@ $action = $_POST['action'] ?? '';
 $pid = $_GET['pid'] ?? null;
 
 if ($act == 'delete' || $act == 'undelete') {
-	$action = $_GET['act'];
-	$pid = $pid;
+	if ($loguser['powerlevel'] <= 1)
+		error("You do not have the permission to do this.");
+
+	$sql->query("UPDATE posts SET deleted = ? WHERE id = ?", [($act == 'delete' ? 1 : 0), $pid]);
+	redirect("thread.php?pid=$pid#$pid");
 }
 
 $thread = $sql->fetch("SELECT p.user puser, t.*, f.title ftitle FROM posts p LEFT JOIN threads t ON t.id = p.thread "
@@ -35,8 +38,10 @@ $error = '';
 $message = $_POST['message'] ?? trim($post['text']);
 
 if ($action == 'Submit') {
-	if ($post['text'] == $message)
+	if ($message == $post['text'])
 		$error = "No changes detected.";
+	if (strlen($message) < 15)
+		$error = "You can't blank out your post!";
 
 	if (!$error) {
 		$newrev = $sql->result("SELECT revision FROM posts WHERE id = ?", [$pid]) + 1;
@@ -46,17 +51,6 @@ if ($action == 'Submit') {
 		$sql->query("INSERT INTO poststext (id,text,revision,date) VALUES (?,?,?,?)",
 			[$pid, $message, $newrev, time()]);
 
-		redirect("thread.php?pid=$pid#edit");
-	}
-} else if ($action == 'delete' || $action == 'undelete') {
-	if ($loguser['powerlevel'] <= 1) {
-		pageheader('Edit post',$thread['forum']);
-		$topbot['title'] .= ' (Error)';
-		RenderPageBar($topbot);
-		echo '<br>';
-		error("You do not have the permission to do this.");
-	} else {
-		$sql->query("UPDATE posts SET deleted = ? WHERE id = ?", [($action == 'delete' ? 1 : 0), $pid]);
 		redirect("thread.php?pid=$pid#edit");
 	}
 }
@@ -81,9 +75,8 @@ if ($action == 'Preview') {
 	$topbot['title'] .= ' (Preview)';
 	RenderPageBar($topbot);
 	echo '<br>'.threadpost($post);
-} else {
+} else
 	RenderPageBar($topbot);
-}
 
 ?><br><?=($error ? noticemsg($error).'<br>' : '')?>
 <form action="editpost.php?pid=<?=$pid?>" method="post">

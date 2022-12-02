@@ -38,17 +38,14 @@ function getrank($set, $posts) {
 	$rankset = &$rankset_data[$rankset_names[$set]];
 	for (end($rankset); key($rankset) !== null; prev($rankset)) {
 		$currentRank = current($rankset);
-		if ($posts >= $currentRank['p']) {
+		if ($posts >= $currentRank['p'])
 			return $currentRank['str'];
-		}
 	}
 	return '';
 }
 
-function randnickcolor() {
-	/* OLD HACKISH CODE FOR APRIL 5 */
-	$stime = gettimeofday();
-	$h = (($stime['usec'] * 10) % 600);
+function rainbowcolour() {
+	$h = (gettimeofday()['usec'] * 10) % 600;
 	if ($h < 100) {
 		$r = 255;
 		$g = 155 + $h;
@@ -74,8 +71,7 @@ function randnickcolor() {
 		$g = 155;
 		$b = 255 - $h + 500;
 	}
-	$rndcolor = substr(dechex($r * 65536 + $g * 256 + $b), -6);
-	return $rndcolor;
+	return substr(dechex($r * 65536 + $g * 256 + $b), -6);
 }
 
 function userfields($tbl = '', $pf = '') {
@@ -86,10 +82,10 @@ function userfields($tbl = '', $pf = '') {
 		if ($ret)
 			$ret .= ',';
 		if ($tbl)
-			$ret .= $tbl . '.';
+			$ret .= $tbl.'.';
 		$ret .= $f;
 		if ($pf)
-			$ret .= ' ' . $pf . $f;
+			$ret .= ' '.$pf.$f;
 	}
 
 	return $ret;
@@ -114,20 +110,16 @@ function userlink($user, $u = '') {
 }
 
 function userdisp($user, $u = '') {
-	global $userbirthdays;
+	global $userbirthdays, $rainbowusers;
 
 	if ($user[$u.'nick_color'] != '000000') //Over-ride for custom colours
 		$nc = $user[$u.'nick_color'];
 	else
 		$nc = powIdToColour($user[$u.'powerlevel']);
 
-	//Random Nick Color on Birthday
-	if (isset($userbirthdays[$user[$u.'id']]))
-		$nc = randnickcolor();
+	// Random username colour on birthday/special events
+	if (isset($rainbowusers) || isset($userbirthdays[$user[$u.'id']]))
+		$nc = rainbowcolour();
 
-	$n = $user[$u.'name'] ?: 'null';
-
-	$userdisname = "<span style='color:#$nc;'>".esc($n).'</span>';
-
-	return $userdisname;
+	return "<span style='color:#$nc;'>".esc($user[$u.'name'] ?: 'null').'</span>';
 }

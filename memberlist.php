@@ -12,9 +12,9 @@ if ($page < 1) $page = 1;
 
 $sortby = ($orderby == 'a' ? " ASC" : " DESC");
 
-$order = 'posts' . $sortby;
-if ($sort == 'name') $order = 'name' . $sortby;
-if ($sort == 'reg') $order = 'joined' . $sortby;
+$order = 'posts'.$sortby;
+if ($sort == 'name') $order = 'name'.$sortby;
+if ($sort == 'reg') $order = 'joined'.$sortby;
 
 $where = (is_numeric($pow) ? "WHERE powerlevel = $pow" : '');
 
@@ -25,7 +25,7 @@ $pagelist = '';
 if ($num >= $ppp) {
 	$pagelist = 'Pages:';
 	for ($p = 1; $p <= 1 + floor(($num - 1) / $ppp); $p++)
-		$pagelist .= ($p == $page ? " $p" : ' ' . mlink($p, $sort, $pow, $p, $orderby) . "</a>");
+		$pagelist .= ($p == $page ? " $p" : ' '.mlink($p, $sort, $pow, $p, $orderby)."</a>");
 }
 
 $groups = [];

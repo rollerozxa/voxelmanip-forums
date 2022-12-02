@@ -23,11 +23,11 @@ $showdel = isset($_GET['showdel']);
 
 if (isset($_GET['action']) && $_GET['action'] == "del") {
 	$owner = $sql->result("SELECT user$fieldn2 FROM pmsgs WHERE id = ?", [$id]);
-	if ($loguser['powerlevel'] > 3 || $owner == $loguser['id']) {
+	if ($loguser['powerlevel'] > 3 || $owner == $loguser['id'])
 		$sql->query("UPDATE pmsgs SET del_$fieldn2 = ? WHERE id = ?", [!$showdel, $id]);
-	} else {
+	else
 		error("You are not allowed to (un)delete that message.");
-	}
+
 	$id = 0;
 }
 
@@ -53,9 +53,7 @@ $pmsgs = $sql->query("SELECT $ufields, p.* FROM pmsgs p
 					LIMIT ?,?",
 				[$id, $showdel, (($page - 1) * $tpp), $tpp]);
 
-$topbot = [
-	'title' => $title
-];
+$topbot = ['title' => $title];
 
 if ($sent)
 	$topbot['actions'] = ['private.php'.($id != $loguser['id'] ? "?id=$id&" : '') => "View received"];
@@ -86,8 +84,6 @@ RenderPageBar($topbot);
 	<?php
 	for ($i = 1; $pmsg = $pmsgs->fetch(); $i++) {
 		$status = ($pmsg['unread'] ? rendernewstatus("n") : '');
-		if (!$pmsg['title'])
-			$pmsg['title'] = '(untitled)';
 
 		$tr = ($i % 2 ? 2 : 3);
 		?>
@@ -96,7 +92,7 @@ RenderPageBar($topbot);
 				<a href="private.php?action=del&id=<?=$pmsg['id'] ?>&view=<?=$view ?>"><img src="img/smilies/no.png" align="absmiddle"></a>
 			</td>
 			<td class="b n1"><?=$status ?></td>
-			<td class="b left" style="word-break:break-word"><a href="showprivate.php?id=<?=$pmsg['id'] ?>"><?=esc($pmsg['title']) ?></a></td>
+			<td class="b left wbreak"><a href="showprivate.php?id=<?=$pmsg['id'] ?>"><?=esc($pmsg['title'] ?: 'untitled') ?></a></td>
 			<td class="b"><?=userlink($pmsg, 'u') ?></td>
 			<td class="b"><nobr><?=dateformat($pmsg['date']) ?></nobr></td>
 		</tr>

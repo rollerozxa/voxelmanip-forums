@@ -20,15 +20,15 @@ if (isset($_GET['id'])) {
 	$viewmode = "time";
 } elseif (isset($_GET['pid'])) { // "link" support (i.e., thread.php?pid=999whatever)
 	$pid = (int)$_GET['pid'];
-	$numpid = $sql->fetch("SELECT t.id tid FROM posts p LEFT JOIN threads t ON p.thread = t.id WHERE p.id = ?", [$pid]);
+	$numpid = $sql->result("SELECT p.id FROM posts p WHERE p.id = ?", [$pid]);
 	if (!$numpid) error("Thread post does not exist.");
 
 	$tid = $sql->result("SELECT thread FROM posts WHERE id = ?", [$pid]);
 	$page = floor($sql->result("SELECT COUNT(*) FROM posts WHERE thread = ? AND id < ?", [$tid, $pid]) / $ppp) + 1;
 	$viewmode = "thread";
-} else {
+} else
 	error("Thread does not exist.");
-}
+
 
 if ($viewmode == "thread")
 	$threadcreator = $sql->result("SELECT user FROM threads WHERE id = ?", [$tid]);
@@ -38,7 +38,7 @@ else
 $action = '';
 $act = $_POST['action'] ?? '';
 
-if (isset($tid) && $log && $act && ($loguser['powerlevel'] > 2 ||
+if (isset($tid) && $log && $act && ($loguser['powerlevel'] > 1 ||
 		($loguser['id'] == $threadcreator && $act == "rename" && $loguser['powerlevel'] > 0))) {
 
 	if ($act == 'stick')	$action = ',sticky=1';
@@ -50,10 +50,10 @@ if (isset($tid) && $log && $act && ($loguser['powerlevel'] > 2 ||
 	if ($act == 'move')		movethread($tid, $_POST['arg']);
 }
 
-//determine string for revision pinning
-if (isset($_GET['pin']) && isset($_GET['rev']) && is_numeric($_GET['pin']) && is_numeric($_GET['rev']) && $loguser['powerlevel'] > 1) {
+// determine string for revision pinning
+if (isset($_GET['pin']) && isset($_GET['rev']) && is_numeric($_GET['pin']) && is_numeric($_GET['rev']) && $loguser['powerlevel'] > 1)
 	$pinstr = "AND (pt2.id<>$_GET[pin] OR pt2.revision<>($_GET[rev]+1)) ";
-} else
+else
 	$pinstr = '';
 
 $offset = (($page - 1) * $ppp);
@@ -81,9 +81,10 @@ if ($viewmode == "thread") {
 
 	//check for having to mark the forum as read too
 	if ($log) {
-		$readstate = $sql->fetch("SELECT ((NOT ISNULL(r.time)) OR t.lastdate < ?) n FROM threads t LEFT JOIN threadsread r ON (r.tid = t.id AND r.uid = ?) "
-			. "WHERE t.forum = ? GROUP BY ((NOT ISNULL(r.time)) OR t.lastdate < ?) ORDER BY n ASC",
-			[$thread['frtime'], $loguser['id'], $thread['fid'], $thread['frtime']]);
+		$readstate = $sql->fetch("SELECT ((NOT ISNULL(r.time)) OR t.lastdate < ?) n FROM threads t
+				LEFT JOIN threadsread r ON (r.tid = t.id AND r.uid = ?) WHERE t.forum = ? ORDER BY n ASC",
+			[$thread['frtime'], $loguser['id'], $thread['fid']]);
+
 		//if $readstate[n] is 1, MySQL did not create a group for threads where ((NOT ISNULL(r.time)) OR t.lastdate<'$thread[frtime]') is 0;
 		//thus, all threads in the forum are read. Mark it as such.
 		if ($readstate['n'] == 1)
@@ -96,8 +97,7 @@ if ($viewmode == "thread") {
 			LEFT JOIN poststext pt ON p.id = pt.id AND p.revision = pt.revision
 			LEFT JOIN users u ON p.user = u.id
 			WHERE p.thread = ?
-			GROUP BY p.id ORDER BY p.id
-			LIMIT ?,?",
+			ORDER BY p.id LIMIT ?,?",
 		[$tid, $offset, $ppp]);
 
 } elseif ($viewmode == "user") {
@@ -156,7 +156,7 @@ if ($viewmode == "thread") {
 	if ($faccess['minreply'] <= $loguser['powerlevel']) {
 		if ($loguser['powerlevel'] > 1 && $thread['closed'])
 			$topbot['actions'] = ['none' => 'Thread closed', "newreply.php?id=$tid" => 'New reply'];
-		else if ($thread['closed'])
+		elseif ($thread['closed'])
 			$topbot['actions'] = ['none' => 'Thread closed'];
 		else
 			$topbot['actions'] = ["newreply.php?id=$tid" => 'New reply'];
@@ -172,9 +172,9 @@ if ($viewmode == "thread") {
 }
 
 $modlinks = '';
-if (isset($tid) && ($loguser['powerlevel'] > 2 || ($loguser['id'] == $thread['user'] && !$thread['closed'] && $loguser['powerlevel'] > 0))) {
+if (isset($tid) && ($loguser['powerlevel'] > 1 || ($loguser['id'] == $thread['user'] && !$thread['closed'] && $loguser['powerlevel'] > 0))) {
 	$link = "<a href=javascript:submitmod";
-	if ($loguser['powerlevel'] > 2) {
+	if ($loguser['powerlevel'] > 1) {
 		$stick = '<li>'.$link.($thread['sticky'] ? "('unstick')>Unstick" : "('stick')>Stick").'</a></li>';
 		$close = '<li>'.$link.($thread['closed'] ? "('open')>Open" : "('close')>Close").'</a></li>';
 		$trash = ($thread['forum'] != $trashid ? '<li><a href=javascript:submitmod(\'trash\') onclick="trashConfirm(event)">Trash</a></li>' : '');
@@ -184,13 +184,14 @@ if (isset($tid) && ($loguser['powerlevel'] > 2 || ($loguser['id'] == $thread['us
 		$fmovelinks = addslashes(forumlist($thread['forum']))
 		.	'<input type="submit" id="move" value="Submit" name="movethread" onclick="submitmove(movetid())">';
 	} else {
-		$fmovelinks = $stick = $stick2 = $close = $close2 = $trash = $trash2 = '';
+		$fmovelinks = $stick = $close = $trash = '';
 		$edit = '<a href=javascript:showrbox()>Rename</a>';
 	}
 
-	$renamefield = '<input type="text" name="title" id="title" size=60 maxlength=255 value="'.esc($thread['title']).'">';
-	$renamefield.= '<input type="submit" name="submit" value="Rename" onclick="submitmod(\'rename\')">';
-	$renamefield = addcslashes($renamefield, "'"); //because of javascript, single quotes will gum up the works
+	$renamefield = addcslashes(
+		'<input type="text" name="title" id="title" size=60 maxlength=255 value="'.esc($thread['title']).'">'.
+		'<input type="submit" name="submit" value="Rename" onclick="submitmod(\'rename\')">',
+	"'"); //because of javascript, single quotes will gum up the works
 
 	$threadtitle = addcslashes(htmlentities($thread['title'], ENT_COMPAT | ENT_HTML401, 'UTF-8'), "'");
 
@@ -235,9 +236,9 @@ for ($i = 1; $post = $posts->fetch(); $i++) {
 	if (!isset($_GET['pin']) || $post['id'] != $_GET['pin']) {
 		//$post['maxrevision'] = $post['revision']; // not pinned, hence the max. revision equals the revision we selected
 		$post['maxrevision'] = 1;
-	} else {
+	} else
 		$post['maxrevision'] = $post['cur_revision'];
-	}
+
 	if (isset($thread['forum']) && $loguser['powerlevel'] > 1 && isset($_GET['pin']) && $post['id'] == $_GET['pin'])
 		$post['deleted'] = false;
 

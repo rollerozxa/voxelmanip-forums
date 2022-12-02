@@ -58,7 +58,7 @@ function postfilter($msg) {
 	global $smilies;
 
 	if (empty($msg)) return;
-	
+
 	$msg = trim($msg);
 
 	//[code] tag
@@ -101,7 +101,7 @@ function postfilter($msg) {
 
 	$msg = preg_replace("'>>([0-9]+)'si", '>><a href=thread.php?pid=\\1#\\1>\\1</a>', $msg);
 
-	$msg = preg_replace("'\[youtube\]([\-0-9_a-zA-Z]*?)\[/youtube\]'si", '<iframe width="427" height="240" src="https://www.youtube.com/embed/\\1" frameborder="0" allowfullscreen></iframe>', $msg);
+	$msg = preg_replace("'\[youtube\]((https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/(watch\?v=)?)?([\-0-9_a-zA-Z]*?)\[\/youtube\]'si", '<iframe width="427" height="240" src="https://www.youtube.com/embed/\\6" frameborder="0" allowfullscreen></iframe>', $msg);
 
 	return $msg;
 }
@@ -203,9 +203,8 @@ HTML;
 
 	$headerbar = $threadlink = $postlinks = $revisionstr = '';
 
-	if (isset($post['headerbar'])) {
+	if (isset($post['headerbar']))
 		$headerbar = sprintf('<tr class="h"><td class="b h" colspan="2">%s</td></tr>', $post['headerbar']);
-	}
 
 	$post['id'] = $post['id'] ?? null;
 
@@ -272,7 +271,7 @@ HTML;
 			<span style="float:left;margin-right:10px">$picture</span>
 			$ulink <div class="sfont" style="margin-top:0.5em">$usertitle</div>
 		</td>
-		<td class="b n1 topbar_2 topbar{$uid}_2 sfont blkm">Posted on $pdate$threadlink$revisionstr <span class="f-right">$postlinks</span></td>
+		<td class="b n1 topbar_2 topbar{$uid}_2 sfont blkm clearfix">Posted on $pdate$threadlink$revisionstr <span class="f-right">$postlinks</span></td>
 	</tr><tr valign="top">
 		<td class="b n1 sfont sidebar sidebar{$uid} nom">
 			$ranktext$usertitle$picture

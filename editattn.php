@@ -3,9 +3,8 @@ require('lib/common.php');
 
 if ($loguser['powerlevel'] < 3) error("You have no permissions to do this!");
 
-if (isset($_POST['action'])) {
+if (isset($_POST['action']))
 	$sql->query("UPDATE misc SET attention = ?", [$_POST['attn']]);
-}
 
 $attndata = $sql->result("SELECT attention FROM misc");
 

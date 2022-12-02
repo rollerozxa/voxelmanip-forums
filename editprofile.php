@@ -39,12 +39,11 @@ if ($act == 'Edit profile') {
 			$error .= "- Invalid file type.<br>";
 		elseif ($res[0] > 180 || $res[1] > 180)
 			$error .= "- The image is too big.<br>";
-		elseif ($fname['size'] > 81920)
+		elseif ($fname['size'] > 100*1024)
 			$error .= "- The image filesize too big.<br>";
 		else {
-			if (!move_uploaded_file($fname['tmp_name'], "userpic/$user[id]")) {
-				$error .= "- Error creating avatar file.<br>";
-			}
+			if (!move_uploaded_file($fname['tmp_name'], "userpic/$user[id]"))
+				$error .= "- Could not move avatar file, please give write permissions for userpic/ folder.<br>";
 		}
 
 		if (!$error) $usepic = 1;
@@ -64,15 +63,13 @@ if ($act == 'Edit profile') {
 	if ($canedituser) {
 		$targetgroup = $_POST['powerlevel'];
 
-		if ($targetgroup >= $loguser['powerlevel'] && $targetgroup != $user['powerlevel']) {
+		if ($targetgroup >= $loguser['powerlevel'] && $targetgroup != $user['powerlevel'])
 			$error .= "- You do not have the permissions to assign this group.<br>";
-		}
 
 		$targetname = $_POST['name'];
 
-		if ($sql->result("SELECT COUNT(name) FROM users WHERE name = ? AND id != ?", [$targetname, $user['id']])) {
+		if ($sql->result("SELECT COUNT(name) FROM users WHERE name = ? AND id != ?", [$targetname, $user['id']]))
 			$error .= "- Name already in use.<br>";
-		}
 	}
 
 	if (checkcusercolor()) {
@@ -80,9 +77,8 @@ if ($act == 'Edit profile') {
 		$_POST['nick_color'] = ltrim($_POST['nick_color'], '#');
 
 		if ($_POST['nick_color'] != '') {
-			if (!preg_match('/^([A-Fa-f0-9]{6})$/', $_POST['nick_color'])) {
+			if (!preg_match('/^([A-Fa-f0-9]{6})$/', $_POST['nick_color']))
 				$error .= "- Custom usercolor is not a valid RGB hex color.<br>";
-			}
 		}
 	}
 
@@ -183,7 +179,7 @@ echo '<form action="editprofile.php?id='.$targetuserid.'" method="post" enctype=
 .(count($rankset_names) > 1 ? fieldrow('Rankset', fieldselect('rankset', $user['rankset'], ranklist())) : '')
 .((checkctitle()) ? fieldrow('Title', fieldinput(40, 255, 'title')) : '')
 .fieldrow('Avatar', '<input type="file" name="picture" size="40">'.$erasepfp
-		.'<br><span class="sfont">Must be PNG, JPG or GIF, within 80KB and 180x180.</span>')
+		.'<br><span class="sfont">Must be PNG, JPG or GIF, within 100kB and 180x180.</span>')
 .(checkcusercolor() ? fieldrow('Custom colour', sprintf('<input type="color" name="nick_color" value="#%s">', $user['nick_color'])) : '')
 .	catheader('User information')
 .fieldrow('Location', fieldinput(40, 60, 'location'))

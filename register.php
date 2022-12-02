@@ -48,9 +48,8 @@ if ($act == 'Register') {
 pageheader('Register');
 
 $timezones = [];
-foreach (timezone_identifiers_list() as $tz) {
+foreach (timezone_identifiers_list() as $tz)
 	$timezones[$tz] = $tz;
-}
 
 if (!empty($err)) noticemsg($err);
 ?>

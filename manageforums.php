@@ -8,11 +8,12 @@ $error = '';
 if (isset($_POST['savecat'])) {
 	// save new/existing category
 	$cid = $_GET['cid'];
-	$title = $_POST['title'];
+	$title = trim($_POST['title']);
 	$ord = (int)$_POST['ord'];
-	if (!trim($title))
-		$error = 'Please enter a title for the category.';
-	else {
+
+	if (!$title) $error = 'Please enter a title for the category.';
+
+	if (!$error) {
 		if ($cid == 'new') {
 			$cid = $sql->result("SELECT MAX(id) FROM categories");
 			if (!$cid) $cid = 0;
@@ -25,17 +26,17 @@ if (isset($_POST['savecat'])) {
 		}
 		redirect('manageforums.php?cid='.$cid);
 	}
-} else if (isset($_POST['delcat'])) {
+} elseif (isset($_POST['delcat'])) {
 	// delete category
 	$cid = (int)$_GET['cid'];
 	$sql->query("DELETE FROM categories WHERE id = ?",[$cid]);
 
 	redirect('manageforums.php');
-} else if (isset($_POST['saveforum'])) {
+} elseif (isset($_POST['saveforum'])) {
 	// save new/existing forum
 	$fid = $_GET['fid'];
 	$cat = (int)$_POST['cat'];
-	$title = $_POST['title'];
+	$title = trim($_POST['title']);
 	$descr = $_POST['descr'];
 	$ord = (int)$_POST['ord'];
 
@@ -43,9 +44,9 @@ if (isset($_POST['savecat'])) {
 	$minthread = (int)$_POST['minthread'];
 	$minreply = (int)$_POST['minreply'];
 
-	if (!trim($title))
-		$error = 'Please enter a title for the forum.';
-	else {
+	if (!$title) $error = 'Please enter a title for the forum.';
+
+	if (!$error) {
 		if ($fid == 'new') {
 			$fid = $sql->result("SELECT MAX(id) FROM forums");
 			if (!$fid) $fid = 0;
@@ -61,7 +62,7 @@ if (isset($_POST['savecat'])) {
 		}
 		redirect('manageforums.php?fid='.$fid);
 	}
-} else if (isset($_POST['delforum'])) {
+} elseif (isset($_POST['delforum'])) {
 	// delete forum
 	$fid = (int)$_GET['fid'];
 	$sql->query("DELETE FROM forums WHERE id=?",[$fid]);
@@ -101,7 +102,7 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 			</tr>
 		</table>
 	</form><?php
-} else if (isset($_GET['fid']) && $fid = $_GET['fid']) {
+} elseif (isset($_GET['fid']) && $fid = $_GET['fid']) {
 	// forum editor
 	if ($fid == 'new') {
 		$forum = [
@@ -185,9 +186,9 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 		$c = ($c == 1) ? 2 : 1;
 	}
 
-	?><table style="width:100%;">
+	?><table style="width:100%">
 		<tr>
-			<td class="nb" style="width:50%; vertical-align:top;">
+			<td class="nb" style="width:50%;vertical-align:top">
 				<table class="c1">
 					<tr class="h"><td class="b">Categories</td></tr>
 					<?=$catlist ?>
@@ -195,7 +196,7 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 					<tr><td class="b n1"><a href="manageforums.php?cid=new">New category</a></td></tr>
 				</table>
 			</td>
-			<td class="nb" style="width:50%; vertical-align:top;">
+			<td class="nb" style="width:50%;vertical-align:top">
 				<table class="c1">
 					<tr class="h"><td class="b">Forums</td></tr>
 					<?=$forumlist ?>

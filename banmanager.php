@@ -17,9 +17,8 @@ $user = $sql->fetch("SELECT * FROM users WHERE id = ?",[$uid]);
 if (isset($_POST['banuser'])) {
 	$banreason = ($_POST['tempbanned'] ? "Banned until ".date("Y-m-d H:i",time() + ($_POST['tempbanned'])) : 'Banned');
 
-	if ($_POST['title']) {
+	if ($_POST['title'])
 		$banreason .= ': '.esc($_POST['title']);
-	}
 
 	$sql->query("UPDATE users SET powerlevel = -1, title = ?, tempbanned = ? WHERE id = ?",
 		[$banreason, ($_POST['tempbanned'] > 0 ? ($_POST['tempbanned'] + time()) : 0), $user['id']]);

@@ -9,7 +9,7 @@ if ($log && $action == 'markread') {
 	if ($fid == 'all') {
 		//mark all read
 		$sql->query("DELETE FROM threadsread WHERE uid = ?", [$loguser['id']]);
-		$sql->query("REPLACE INTO forumsread (uid,fid,time) SELECT " . $loguser['id'] . ",f.id," . time() . " FROM forums f");
+		$sql->query("REPLACE INTO forumsread (uid,fid,time) SELECT ?, f.id, ? FROM forums f", [$loguser['id'], time()]);
 		redirect('index.php');
 	} else {
 		//delete obsolete threadsread entries

@@ -28,7 +28,7 @@ $pagebar = [
 $pmsg['id'] = 0;
 
 RenderPageBar($pagebar);
-echo '<br>' . threadpost($pmsg) . '<br>';
+echo '<br>'.threadpost($pmsg).'<br>';
 RenderPageBar($pagebar);
 
 pagefooter();

@@ -24,7 +24,7 @@ HTML
 	'content' => <<<HTML
 <p>Posting on a message forum is generally relaxed. There are, however, a few things to keep in mind when posting.</p>
 <ul>
-	<li><b>No trolling, flaming, harrassment or drama.</b><br>
+	<li><b>No trolling, flaming, harassment or drama.</b><br>
 		This behavior is unacceptable and will be dealt with accordingly to the severity, to make the board a pleasant experience for everyone.</li>
 
 	<li><b>No spamming.</b><br>

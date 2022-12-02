@@ -4,19 +4,18 @@ pageheader('Management');
 
 $mlinks = [];
 if ($loguser['powerlevel'] > 2) {
-	$mlinks[] = ['url' => "manageforums.php", 'title' => 'Manage forums'];
-	$mlinks[] = ['url' => "ipbans.php", 'title' => 'Manage IP bans'];
-	$mlinks[] = ['url' => "editattn.php", 'title' => 'Edit news box'];
+	$mlinks = [
+		"manageforums.php" => 'Manage forums',
+		"ipbans.php" => 'Manage IP bans',
+		"editattn.php" => 'Edit news box'];
 }
 
+$mlinkstext = '';
 if (!empty($mlinks)) {
-	$mlinkstext = '';
-	foreach ($mlinks as $l)
-		$mlinkstext .= sprintf(' <a href="%s"><input type="submit" name="action" value="%s"></a> ', $l['url'], $l['title']);
-} else {
+	foreach ($mlinks as $url => $title)
+		$mlinkstext .= sprintf(' <a href="%s"><input type="submit" name="action" value="%s"></a> ', $url, $title);
+} else
 	$mlinkstext = "You don't have permission to access any management tools.";
-}
-
 ?>
 <table class="c1">
 	<tr class="h"><td class="b">Board management tools</td></tr>

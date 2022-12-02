@@ -23,8 +23,8 @@ if ($log) {
 $ufields = userfields('u1', 'u1').",".userfields('u2', 'u2').",";
 if ($fid) {
 	if ($log) {
-		$forum = $sql->fetch("SELECT f.*, r.time rtime FROM forums f LEFT JOIN forumsread r ON (r.fid = f.id AND r.uid = ?) "
-			. "WHERE f.id = ? AND ? >= minread", [$loguser['id'], $fid, $loguser['powerlevel']]);
+		$forum = $sql->fetch("SELECT f.*, r.time rtime FROM forums f LEFT JOIN forumsread r ON (r.fid = f.id AND r.uid = ?)
+			WHERE f.id = ? AND ? >= minread", [$loguser['id'], $fid, $loguser['powerlevel']]);
 		if (!$forum['rtime']) $forum['rtime'] = 0;
 
 		$isread = ", (NOT (r.time<t.lastdate OR isnull(r.time)) OR t.lastdate<'$forum[rtime]') isread";
@@ -169,7 +169,9 @@ for ($i = 1; $thread = $threads->fetch(); $i++) {
 	?><tr class="n<?=$tr ?> center">
 		<td class="b n1"><?=$status ?></td>
 		<?=($showforum ? sprintf('<td class="b"><a href="forum.php?id=%s">%s</a></td>', $thread['fid'], $thread['ftitle']) : '')?>
-		<td class="b left" style="word-break:break-word"><a href="thread.php?id=<?=$thread['id'] ?>"><?=esc($thread['title']) ?></a><?=$pagelist ?></td>
+		<td class="b left wbreak">
+			<a href="thread.php?id=<?=$thread['id'] ?>"><?=esc($thread['title']) ?></a><?=$pagelist ?>
+		</td>
 		<td class="b nom"><?=userlink($thread, 'u1') ?></td>
 		<td class="b nom"><?=$thread['posts']-1 ?></td>
 		<td class="b nom"><?=$thread['views'] ?></td>
@@ -184,5 +186,4 @@ if_empty_query($i, "No threads found.", ($showforum ? 7 : 6));
 echo "</table>$fpagelist".(!$time ? '<br>' : '');
 
 RenderPageBar($topbot);
-
 pagefooter();

@@ -84,7 +84,7 @@ if ($where == 1) {
 		$tr = ($i % 2 ? 2 : 3);
 
 		?><tr class="n<?=$tr ?> center">
-			<td class="b left" style="word-break:break-word">
+			<td class="b left wbreak">
 				<a href="thread.php?id=<?=$thread['id'] ?>"><?=esc($thread['title']) ?></a> <?=($thread['sticky'] ? ' (Sticky)' : '')?>
 			</td>
 			<td class="b"><?=userlink($thread,'u') ?></td>

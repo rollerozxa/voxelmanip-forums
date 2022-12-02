@@ -9,26 +9,25 @@ $thread = $sql->fetch("SELECT t.*, f.title ftitle, f.minreply fminreply
 	FROM threads t LEFT JOIN forums f ON f.id=t.forum
 	WHERE t.id = ? AND ? >= f.minread", [$tid, $loguser['powerlevel']]);
 
-if (!$thread) {
+if (!$thread)
 	error("Thread does not exist.");
-} else if ($thread['fminreply'] > $loguser['powerlevel']) {
+if ($thread['fminreply'] > $loguser['powerlevel'])
 	error("You have no permissions to create posts in this forum!");
-} elseif ($thread['closed'] && $loguser['powerlevel'] < 2) {
+if ($thread['closed'] && $loguser['powerlevel'] < 2)
 	error("You can't post in closed threads!");
-}
 
-$message = $_POST['message'] ?? '';
+$message = trim($_POST['message'] ?? '');
 
 $error = '';
 if ($action == 'Submit') {
 	$lastpost = $sql->fetch("SELECT id,user,date FROM posts WHERE thread = ? ORDER BY id DESC LIMIT 1", [$thread['id']]);
-	if ($lastpost['user'] == $loguser['id'] && $lastpost['date'] >= (time() - 43200) && $loguser['powerlevel'] < 4)
+	if ($lastpost['user'] == $loguser['id'] && $lastpost['date'] >= (time() - 43200) && $loguser['powerlevel'] < 2)
 		$error = "You can't double post until it's been at least 12 hours!";
-	if ($lastpost['user'] == $loguser['id'] && $lastpost['date'] >= (time() - 2) && $loguser['powerlevel'] > 3)
-		$error = "You must wait 2 seconds before posting consecutively.";
-	if (strlen(trim($message)) < 20)
+	if ($lastpost['user'] == $loguser['id'] && $lastpost['date'] >= (time() - 30))
+		$error = "You must wait 30 seconds before posting consecutively.";
+	if (strlen($message) < 15)
 		$error = "Your post is too short to be meaningful. Please try to write something longer or refrain from posting.";
-	if (strlen(trim($message)) == 0)
+	if (strlen($message) == 0)
 		$error = "Your post is empty! Enter a message and try again.";
 
 	if (!$error) {
@@ -38,7 +37,7 @@ if ($action == 'Submit') {
 
 		$pid = $sql->insertid();
 		$sql->query("INSERT INTO poststext (id,text) VALUES (?,?)",
-			[$pid,trim($message)]);
+			[$pid,$message]);
 
 		$sql->query("UPDATE threads SET posts = posts + 1,lastdate = ?, lastuser = ?, lastid = ? WHERE id = ?",
 			[time(), $loguser['id'], $pid, $tid]);
@@ -93,9 +92,9 @@ if ($action == 'Preview') {
 	$topbot['title'] .= ' (Preview)';
 	RenderPageBar($topbot);
 	echo '<br>'.threadpost($post);
-} else {
+} else
 	RenderPageBar($topbot);
-}
+
 ?><br><?=($error ? noticemsg($error).'<br>' : '')?>
 <form action="newreply.php?id=<?=$tid?>" method="post">
 	<table class="c1">
@@ -126,9 +125,8 @@ $newestposts = $sql->query("SELECT $fieldlist p.*, pt.text
 			ORDER BY p.id DESC LIMIT 5", [$tid]);
 
 echo '<table class="c1"><tr class="h"><td class="b h" colspan="2">Thread preview</td></tr>';
-while ($post = $newestposts->fetch()) {
+while ($post = $newestposts->fetch())
 	echo minipost($post);
-}
 echo '</table><br>';
 
 RenderPageBar($topbot);

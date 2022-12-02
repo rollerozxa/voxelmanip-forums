@@ -21,14 +21,12 @@ pageheader('IP bans');
 if ($action == "del") {
 	$data = explode(",",$what);
 	$sql->query("DELETE FROM ipbans WHERE ipmask = ? AND expires = ?", [$data[0], $data[1]]);
-} else if ($action == "add") {
+} elseif ($action == "add") {
 	if ($_POST['ipmask']) {
 		$hard = $_POST['hard'] ?? 0;
 		$expires = ($_POST['expires'] > 0 ? ($_POST['expires'] + time()) : 0);
 		$sql->query("INSERT INTO ipbans (ipmask,expires,banner,reason) VALUES (?,?,?,?)",
 			[$_POST['ipmask'], $expires, $loguser['name'], $_POST['reason']]);
-	} else {
-		noticemsg("You must enter an IP mask");
 	}
 }
 $ipbans = $sql->query("SELECT * FROM ipbans");
@@ -38,7 +36,7 @@ $ipbans = $sql->query("SELECT * FROM ipbans");
 		<tr class="h"><td class="b h" colspan="2">New IP ban</td></tr>
 		<tr>
 			<td class="b n1" width=150>IP mask</td>
-			<td class="b n2"><input type="text" name="ipmask"></td>
+			<td class="b n2"><input type="text" name="ipmask" required></td>
 		</tr><tr>
 			<td class="b n1">Expires?</td>
 			<td class="b n2"><?=bantimeselect("expires") ?></td>

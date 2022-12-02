@@ -6,3 +6,7 @@ Thumbs.db
 conf/config.php
 conf/faq.php
 userpic/
+test
+robots.txt
+uploader/
+conf/lockdown.html

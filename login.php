@@ -8,17 +8,16 @@ if ($act == 'Login') {
 	if ($logindata && password_verify($_POST['pass'], $logindata['password'])) {
 		setcookie('token', $logindata['token'], 2147483647);
 		redirect('./');
-	} else {
+	} else
 		$err = "Invalid username or password, cannot log in.";
-	}
+
 } elseif ($act == 'logout') {
 	setcookie('token', 0);
 	redirect('./');
 }
 
 pageheader('Login');
-if (isset($err))
-	noticemsg($err);
+if (isset($err)) noticemsg($err);
 ?>
 <form action="login.php" method="post"><table class="c1">
 	<tr class="h"><td class="b h" colspan="2">Login</td></tr>

@@ -48,6 +48,10 @@ a:active, a:hover	{ color: #FFFFFF }
 	float: right;
 }
 
+.wbreak {
+	word-break: break-word;
+}
+
 .codeblock {
 	background-color: #151515;
 	color: #50fc5e;
@@ -58,7 +62,7 @@ a:active, a:hover	{ color: #FFFFFF }
 	font-family: 'Fira Code', Monaco, Consolas, monospace;
 }
 
-.boardlogo, .smiley {
+.poweredby, .smiley {
 	-ms-interpolation-mode: nearest-neighbor;
 	image-rendering: pixelated;
 }

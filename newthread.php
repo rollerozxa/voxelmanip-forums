@@ -12,20 +12,18 @@ if (!$forum)
 if ($forum['minthread'] > $loguser['powerlevel'])
 	error("You have no permissions to create threads in this forum!");
 
-$title = $_POST['title'] ?? '';
-$message = $_POST['message'] ?? '';
+$title = trim($_POST['title'] ?? '');
+$message = trim($_POST['message'] ?? '');
 
 $error = '';
 
 if ($action == 'Submit') {
-	if (strlen(trim($title)) < 7)
+	if (strlen($title) < 7)
 		$error = "You need to enter a longer title.";
-	if (strlen(trim($message)) == 0)
+	if (strlen($message) == 0)
 		$error = "You need to enter a message to your thread.";
-	if ($loguser['lastpost'] > time() - 30 && $loguser['powerlevel'] < 4)
-		$error = "Don't post threads so fast, wait a little longer.";
-	//if ($loguser['lastpost'] > time() - 2 && has_perm('ignore-thread-time-limit'))
-	//	$error = "You must wait 2 seconds before posting a thread.";
+	if ($loguser['lastpost'] > time() - 30)
+		$error = "Please wait 30 seconds before opening a new thread.";
 
 	if (!$error) {
 		$sql->query("UPDATE users SET posts = posts + 1,threads = threads + 1,lastpost = ? WHERE id = ?", [time(), $loguser['id']]);
@@ -38,7 +36,7 @@ if ($action == 'Submit') {
 
 		$pid = $sql->insertid();
 		$sql->query("INSERT INTO poststext (id,text) VALUES (?,?)",
-			[$pid,trim($message)]);
+			[$pid,$message]);
 
 		$sql->query("UPDATE forums SET threads = threads + 1, posts = posts + 1, lastdate = ?,lastuser = ?,lastid = ? WHERE id = ?",
 			[time(), $loguser['id'], $pid, $fid]);
@@ -68,9 +66,9 @@ if ($action == 'Preview') {
 	RenderPageBar($topbot);
 
 	echo '<br>'.threadpost($post);
-} else {
+} else
 	RenderPageBar($topbot);
-}
+
 ?><br><?=($error ? noticemsg($error).'<br>' : '')?>
 <form action="newthread.php?id=<?=$fid?>" method="post"><table class="c1">
 	<tr class="h"><td class="b h" colspan="2">Thread</td></tr>

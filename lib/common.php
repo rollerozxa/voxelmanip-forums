@@ -20,9 +20,8 @@ if (isset($_COOKIE['token'])) {
 	if ($sql->result("SELECT id FROM users WHERE token = ?", [$_COOKIE['token']])) {
 		$log = true;
 		$loguser = $sql->fetch("SELECT * FROM users WHERE token = ?", [$_COOKIE['token']]);
-	} else {
+	} else
 		setcookie('token', 0);
-	}
 }
 
 if (!$log) {
@@ -66,7 +65,7 @@ if (str_replace($botlist, "x", strtolower($useragent)) != strtolower($useragent)
 	$bot = 1;
 
 if (!isset($rss)) {
-	$sql->query("DELETE FROM guests WHERE date < ?", [(time() - 900)]);
+	$sql->query("DELETE FROM guests WHERE date < ?", [(time() - 15*60)]);
 	if ($log)
 		$sql->query("UPDATE users SET lastview = ?, ip = ?, url = ? WHERE id = ?",
 			[time(), $userip, $url, $loguser['id']]);
@@ -101,7 +100,7 @@ function pageheader($pagetitle = '', int $fid = null) {
 		$boardlogo = <<<HTML
 <table width="100%"><tr>
 	<td>$boardlogo</td>
-	<td width="300">
+	<td class="nom" width="300">
 		<table class="c1 center">
 			<tr class="h"><td class="b h">News</td></tr>
 			<tr class="n1 center"><td class="b sfont">$attn</td></tr>
@@ -172,7 +171,7 @@ HTML;
 		$andlastforum = ($fid != 0 ? " AND lastforum =".$fid : '');
 
 		$onusers = $sql->query("SELECT ".userfields().",lastpost,lastview FROM users WHERE lastview > ? $andlastforum ORDER BY name",
-			[(time() - 300)]);
+			[(time() - 15*60)]);
 		$onuserlist = '';
 		$onusercount = 0;
 		while ($user = $onusers->fetch()) {
@@ -181,7 +180,7 @@ HTML;
 		}
 
 		$result = $sql->query("SELECT COUNT(*) guest_count, SUM(bot) bot_count FROM guests WHERE date > ? $andlastforum",
-			[(time() - 900)]);
+			[(time() - 15*60)]);
 
 		while ($data = $result->fetch()) {
 			$numbots = $data['bot_count'];
@@ -194,10 +193,10 @@ HTML;
 
 	if ($fid) {
 		$fname = $sql->result("SELECT title FROM forums WHERE id = ?", [$fid]);
-		$onuserlist = "$onusercount user".plural($onusercount)." currently in $fname" . ($onusercount > 0 ? ": " : '') . $onuserlist;
+		$onuserlist = "$onusercount user".plural($onusercount)." currently in $fname".($onusercount > 0 ? ": " : '').$onuserlist;
 
 		?><table class="c1"><tr class="n1"><td class="b n1 center"><?=$onuserlist ?></td></tr></table><br><?php
-	} else if (!$pagetitle) {
+	} elseif (!$pagetitle) {
 		$rbirthdays = $sql->query("SELECT birth, ".userfields()." FROM users WHERE birth LIKE ? ORDER BY name", ['%'.date('m-d')]);
 
 		$birthdays = [];
@@ -261,7 +260,7 @@ function pagefooter() {
 	<table class="c1">
 		<tr><td class="b n2 footer">
 			<span class="stats nom">
-				<?=sprintf("Page rendered in %1.3f seconds. (%dKB of memory used)", $time, memory_get_usage(false) / 1024); ?>
+				<?=sprintf("Page rendered in %1.3f ms. (%dKB of memory used)", $time*1000, memory_get_usage(false) / 1024); ?>
 			</span>
 
 			<img src="img/poweredbyvoxelmanip.png" class="poweredby"
@@ -270,5 +269,5 @@ function pagefooter() {
 			Voxelmanip Forums <?=$commitmsg?><br>
 			&copy; 2022 ROllerozxa, <a href="credits.php">et al</a>.
 		</td></tr>
-	</table><?php
+	</table></body></html><?php
 }

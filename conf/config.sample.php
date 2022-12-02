@@ -24,6 +24,7 @@ $override_theme = ''; // If you want to lock everyone to a specific theme.
 
 $lockdown = false; // Put board in lockdown mode.
 //$lockdownText = ""; // Custom text to be put in the lockdown mode page.
+//$rainbowusers = false; // Make usernames all rainbowy!
 
 // List of bots
 $botlist = ['ia_archiver','baidu','yahoo','bot','spider'];

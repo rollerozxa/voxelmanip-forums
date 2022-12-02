@@ -6,7 +6,7 @@ $getrankset = (int)($_GET['rankset'] ?? 1);
 $linkuser = [];
 $allusers = $sql->query("SELECT ".userfields().", posts, lastview FROM users WHERE rankset = ? ORDER BY id", [$getrankset]);
 
-while ($row = $allusers->fetch()) { $linkuser[$row['id']] = $row; }
+while ($row = $allusers->fetch()) $linkuser[$row['id']] = $row;
 
 $rankselection = '';
 $ranksetcount = 0;

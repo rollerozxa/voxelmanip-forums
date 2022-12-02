@@ -83,7 +83,7 @@ function fieldselect($field, $checked, $choices, $onchange = '') {
 }
 
 function bantimeselect($name) {
-	$selector = [
+	return fieldselect($name, 0, [
 		"0"			=> "Never",
 		"3600"		=> "1 hour",
 		"10800"		=> "3 hours",
@@ -95,8 +95,7 @@ function bantimeselect($name) {
 		"2419200"	=> "1 month",
 		"4838400"	=> "2 months",
 		"14515200"	=> "6 months",
-	];
-	return fieldselect($name, 0, $selector);
+	]);
 }
 
 function pagelist($total, $limit, $url, $sel = 0, $showall = false, $tree = false) {
@@ -113,9 +112,8 @@ function pagelist($total, $limit, $url, $sel = 0, $showall = false, $tree = fals
 				$pagelist .= " $i";
 			else
 				$pagelist .= " <a href=\"$url&page=$i\">$i</a>";
-		} else if (substr($pagelist, -1) != '.') {
+		} elseif (substr($pagelist, -1) != '.')
 			$pagelist .= ' ...';
-		}
 	}
 
 	if ($tree)
