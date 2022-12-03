@@ -199,7 +199,7 @@ HTML;
 		$isBlocked = isset($blocklayouts[$post['uid']]);
 
 	if ($isBlocked)
-		$post['usign'] = $post['uhead'] = '';
+		$post['usignature'] = $post['uheader'] = '';
 
 	$headerbar = $threadlink = $postlinks = $revisionstr = '';
 
@@ -249,18 +249,18 @@ HTML;
 	$lastpost = ($post['ulastpost'] ? timeunits(time() - $post['ulastpost']) : 'none');
 	$lastview = timeunits(time() - $post['ulastview']);
 
-	$picture = ($post['uusepic'] ? "<img src=\"userpic/{$post['uid']}\">" : '');
+	$picture = ($post['uavatar'] ? "<img src=\"userpic/{$post['uid']}\">" : '');
 
-	if ($post['usign']) {
+	if ($post['usignature']) {
 		$signsep = $post['usignsep'] ? '<hr>' : '';
 
-		if (!$post['uhead'])
-			$post['usign'] = '<br><br><small>'.$signsep.$post['usign'].'</small>';
+		if (!$post['uheader'])
+			$post['usignature'] = '<br><br><small>'.$signsep.$post['usignature'].'</small>';
 		else
-			$post['usign'] = $signsep.$post['usign'];
+			$post['usignature'] = $signsep.$post['usignature'];
 	}
 
-	$posttext = postfilter($post['uhead'].$post['text'].$post['usign']);
+	$posttext = postfilter($post['uheader'].$post['text'].$post['usignature']);
 
 	return <<<HTML
 <table class="c1" id="{$post['id']}">

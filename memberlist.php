@@ -68,7 +68,7 @@ foreach ($powerlevels as $id => $title) {
 
 for ($i = 1; $user = $users->fetch(); $i++) {
 	$tr = ($i % 2 ? 1 : 2);
-	$picture = ($user['usepic'] ? '<img src="userpic/'.$user['id'].'" width="60" height="60">' : '');
+	$picture = ($user['avatar'] ? '<img src="userpic/'.$user['id'].'" width="60" height="60">' : '');
 	?><tr class="n<?=$tr ?>" style="height:69px">
 		<td class="b center"><?=$user['id'] ?>.</td>
 		<td class="b center"><?=$picture ?></td>

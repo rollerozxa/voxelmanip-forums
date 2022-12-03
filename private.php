@@ -33,7 +33,7 @@ if (isset($_GET['action']) && $_GET['action'] == "del") {
 
 $ptitle = 'Private messages' . ($sent ? ' (sent)' : '');
 if ($id && $loguser['powerlevel'] > 3) {
-	$user = $sql->fetch("SELECT id,name,nick_color,powerlevel FROM users WHERE id = ?", [$id]);
+	$user = $sql->fetch("SELECT id,name,customcolour,powerlevel FROM users WHERE id = ?", [$id]);
 	if ($user == null) error("User doesn't exist.");
 	pageheader($user['name']."'s ".strtolower($ptitle));
 	$title = userlink($user)."'s ".strtolower($ptitle);

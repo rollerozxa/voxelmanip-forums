@@ -30,7 +30,7 @@ if ($act == 'Edit profile') {
 	if ($_POST['pass'] && $_POST['pass2'] && $_POST['pass'] != $_POST['pass2'])
 		$error = "- The passwords you entered don't match.<br>";
 
-	$fname = $_FILES['picture'];
+	$fname = $_FILES['avatar'];
 	if ($fname['size'] > 0) {
 		$ftypes = ['png','jpeg','jpg','gif'];
 		$res = getimagesize($fname['tmp_name']);
@@ -46,9 +46,9 @@ if ($act == 'Edit profile') {
 				$error .= "- Could not move avatar file, please give write permissions for userpic/ folder.<br>";
 		}
 
-		if (!$error) $usepic = 1;
+		if (!$error) $avatar = 1;
 	}
-	if (isset($_POST['picturedel'])) $usepic = 0;
+	if (isset($_POST['picturedel'])) $avatar = 0;
 
 	$pass = (strlen($_POST['pass2']) ? $_POST['pass'] : '');
 
@@ -74,10 +74,10 @@ if ($act == 'Edit profile') {
 
 	if (checkcusercolor()) {
 		//Validate Custom username color is a 6 digit hex RGB color
-		$_POST['nick_color'] = ltrim($_POST['nick_color'], '#');
+		$customcolour = $_POST['customcolour'] ? ltrim($_POST['customcolour'], '#') : '';
 
-		if ($_POST['nick_color'] != '') {
-			if (!preg_match('/^([A-Fa-f0-9]{6})$/', $_POST['nick_color']))
+		if ($customcolour != '') {
+			if (!preg_match('/^([A-Fa-f0-9]{6})$/', $customcolour))
 				$error .= "- Custom usercolor is not a valid RGB hex color.<br>";
 		}
 	}
@@ -88,23 +88,23 @@ if ($act == 'Edit profile') {
 		$placeholders = [];
 
 		$fields = [
-			'location' => $_POST['location'] ?: null,
-			'birth' => $birthday ?? null,
-			'bio' => $_POST['bio'] ?: null,
-			'email' => $_POST['email'] ?: null,
-			'showemail' => isset($_POST['showemail']) ? 1 : 0,
-			'head' => $_POST['head'] ?: null,
-			'sign' => $_POST['sign'] ?: null,
-			'signsep' => isset($_POST['signsep']) ? 1 : 0,
-			'theme' => $_POST['theme'] != $defaulttheme ? $_POST['theme'] : null,
-			'timezone' => $_POST['timezone'] != $defaulttimezone ? $_POST['timezone'] : null,
-			'ppp' => $_POST['ppp'],
-			'tpp' => $_POST['tpp'],
+			'location'	=> $_POST['location'] ?: null,
+			'birthday'	=> $birthday ?? null,
+			'bio'		=> $_POST['bio'] ?: null,
+			'email'		=> $_POST['email'] ?: null,
+			'showemail'	=> isset($_POST['showemail']) ? 1 : 0,
+			'header'	=> $_POST['header'] ?: null,
+			'signature'	=> $_POST['signature'] ?: null,
+			'signsep'	=> isset($_POST['signsep']) ? 1 : 0,
+			'theme'		=> $_POST['theme'] != $defaulttheme ? $_POST['theme'] : null,
+			'timezone'	=> $_POST['timezone'] != $defaulttimezone ? $_POST['timezone'] : null,
+			'ppp'		=> $_POST['ppp'],
+			'tpp'		=> $_POST['tpp'],
 			'blocklayouts' => isset($_POST['blocklayouts']) ? 1 : 0,
 		];
 
-		if (isset($usepic))
-			$fields['usepic'] = $usepic;
+		if (isset($avatar))
+			$fields['avatar'] = $avatar;
 
 		if (isset($_POST['rankset']))
 			$fields['rankset'] = $_POST['rankset'];
@@ -115,7 +115,7 @@ if ($act == 'Edit profile') {
 		}
 
 		if (checkcusercolor())
-			$fields['nick_color'] = $_POST['nick_color'];
+			$fields['customcolour'] = $customcolour;
 
 		if (checkctitle())
 			$fields['title'] = $_POST['title'];
@@ -144,7 +144,7 @@ if ($act == 'Edit profile') {
 
 		foreach ($_POST as $k => $v)
 			$user[$k] = $v;
-		$user['birth'] = $birthday;
+		$user['birthday'] = $birthday;
 	}
 }
 
@@ -155,8 +155,8 @@ foreach (timezone_identifiers_list() as $tz)
 	$listtimezones[$tz] = $tz;
 
 $birthM = $birthD = $birthY = '';
-if ($user['birth']) {
-	$birthday = explode('-', $user['birth']);
+if ($user['birthday']) {
+	$birthday = explode('-', $user['birthday']);
 	$birthY = $birthday[0]; $birthM = $birthday[1]; $birthD = $birthday[2];
 }
 
@@ -167,7 +167,7 @@ $birthinput = sprintf(
 	<input type="text" name="birthY" size="5" maxlength="4" value="%s" placeholder="Year">',
 $birthD, $birthM, $birthY);
 
-$erasepfp = ($user['usepic'] ? ' or <input type="checkbox" name="picturedel" value="1" id="picturedel"><label for="picturedel">Erase existing avatar</label>' : '');
+$erasepfp = ($user['avatar'] ? ' or <input type="checkbox" name="picturedel" value="1" id="picturedel"><label for="picturedel">Erase existing avatar</label>' : '');
 
 echo '<form action="editprofile.php?id='.$targetuserid.'" method="post" enctype="multipart/form-data"><table class="c1">'
 .	catheader('Edit profile')
@@ -178,9 +178,9 @@ echo '<form action="editprofile.php?id='.$targetuserid.'" method="post" enctype=
 .($canedituser ? fieldrow('Rank', fieldselect('powerlevel', $user['powerlevel'], $powerlevels)) : '')
 .(count($rankset_names) > 1 ? fieldrow('Rankset', fieldselect('rankset', $user['rankset'], ranklist())) : '')
 .((checkctitle()) ? fieldrow('Title', fieldinput(40, 255, 'title')) : '')
-.fieldrow('Avatar', '<input type="file" name="picture" size="40">'.$erasepfp
+.fieldrow('Avatar', '<input type="file" name="avatar" size="40">'.$erasepfp
 		.'<br><span class="sfont">Must be PNG, JPG or GIF, within 100kB and 180x180.</span>')
-.(checkcusercolor() ? fieldrow('Custom colour', sprintf('<input type="color" name="nick_color" value="#%s">', $user['nick_color'])) : '')
+.(checkcusercolor() ? fieldrow('Custom colour', sprintf('<input type="color" name="customcolour" value="#%s">', $user['customcolour'])) : '')
 .	catheader('User information')
 .fieldrow('Location', fieldinput(40, 60, 'location'))
 .fieldrow('Birthday', $birthinput)
@@ -188,9 +188,9 @@ echo '<form action="editprofile.php?id='.$targetuserid.'" method="post" enctype=
 .fieldrow('Email address', fieldinput(40, 60, 'email')
 		.'<br>'.fieldcheckbox('showemail', $user['showemail'], 'Show email on profile page'))
 .	catheader('Post layout')
-.fieldrow('Header', fieldtext(7, 80, 'head'))
-.fieldrow('Signature', fieldtext(7, 80, 'sign'))
-.fieldrow('Signature line', fieldcheckbox('signsep', $user['signsep'], 'Show signature separator'))
+.fieldrow('Header', fieldtext(7, 80, 'header'))
+.fieldrow('Signature', fieldtext(7, 80, 'signature')
+		.'<br>'.fieldcheckbox('signsep', $user['signsep'], 'Show signature separator'))
 .	catheader('Options')
 .fieldrow('Theme', fieldselect('theme', $user['theme'] ?? $defaulttheme, themelist(), "themePreview(this.value)"))
 .fieldrow('Timezone', fieldselect('timezone', $user['timezone'], $listtimezones))

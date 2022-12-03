@@ -68,7 +68,7 @@ if (!isset($rss)) {
 	$sql->query("DELETE FROM guests WHERE date < ?", [(time() - 15*60)]);
 	if ($log)
 		$sql->query("UPDATE users SET lastview = ?, ip = ?, url = ? WHERE id = ?",
-			[time(), $userip, $url, $loguser['id']]);
+			[time(), $userip, substr($url,0,150), $loguser['id']]);
 	else
 		$sql->query("REPLACE INTO guests (date, ip, bot) VALUES (?,?,?)", [time(),$userip,$bot]);
 }
@@ -197,11 +197,11 @@ HTML;
 
 		?><table class="c1"><tr class="n1"><td class="b n1 center"><?=$onuserlist ?></td></tr></table><br><?php
 	} elseif (!$pagetitle) {
-		$rbirthdays = $sql->query("SELECT birth, ".userfields()." FROM users WHERE birth LIKE ? ORDER BY name", ['%'.date('m-d')]);
+		$rbirthdays = $sql->query("SELECT birthday, ".userfields()." FROM users WHERE birthday LIKE ? ORDER BY name", ['%'.date('m-d')]);
 
 		$birthdays = [];
 		while ($user = $rbirthdays->fetch()) {
-			$b = explode('-', $user['birth']);
+			$b = explode('-', $user['birthday']);
 			$birthdays[] = userlink($user)." (".(date("Y") - $b['0']).")";
 		}
 

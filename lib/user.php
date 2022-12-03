@@ -6,7 +6,7 @@ function dobirthdays() { //Function for calling after we get the timezone for th
 	global $sql, $userbirthdays;
 	// Check for birthdays globally.
 	// Makes stuff like checking for rainbow usernames a lot easier.
-	$rbirthdays = $sql->query("SELECT id FROM users WHERE birth LIKE ?", ['%'.date('m-d')]);
+	$rbirthdays = $sql->query("SELECT id FROM users WHERE birthday LIKE ?", ['%'.date('m-d')]);
 	while ($bd = $rbirthdays->fetch())
 		$userbirthdays[$bd['id']] = true;
 	return;
@@ -75,7 +75,7 @@ function rainbowcolour() {
 }
 
 function userfields($tbl = '', $pf = '') {
-	$fields = ['id', 'name', 'powerlevel', 'nick_color'];
+	$fields = ['id', 'name', 'powerlevel', 'customcolour'];
 
 	$ret = '';
 	foreach ($fields as $f) {
@@ -92,7 +92,7 @@ function userfields($tbl = '', $pf = '') {
 }
 
 function userfields_post() {
-	$ufields = ['posts','joined','lastpost','lastview','rankset','title','usepic','head','sign','signsep'];
+	$ufields = ['posts','joined','lastpost','lastview','rankset','title','avatar','header','signature','signsep'];
 	$fieldlist = '';
 	foreach ($ufields as $field)
 		$fieldlist .= "u.$field u$field,";
@@ -112,8 +112,8 @@ function userlink($user, $u = '') {
 function userdisp($user, $u = '') {
 	global $userbirthdays, $rainbowusers;
 
-	if ($user[$u.'nick_color'] != '000000') //Over-ride for custom colours
-		$nc = $user[$u.'nick_color'];
+	if ($user[$u.'customcolour'] != '000000') //Over-ride for custom colours
+		$nc = $user[$u.'customcolour'];
 	else
 		$nc = powIdToColour($user[$u.'powerlevel']);
 

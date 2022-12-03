@@ -26,10 +26,10 @@ if ($user['posts'] != 0) {
 }
 
 $birthday = '';
-if ($user['birth']) {
-	$bd1 = new DateTime($user['birth']);
+if ($user['birthday']) {
+	$bd1 = new DateTime($user['birthday']);
 	$bd2 = new DateTime(date("Y-m-d"));
-	$birthday = date("F j, Y", strtotime($user['birth']))
+	$birthday = date("F j, Y", strtotime($user['birthday']))
 		.' ('.intval($bd1->diff($bd2)->format("%Y")).' years old)';
 }
 
