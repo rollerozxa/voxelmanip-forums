@@ -180,7 +180,7 @@ function threadpost($post, $pthread = '') {
 
 		$ulink = userlink($post, 'u');
 		return <<<HTML
-<table class="c1"><tr>
+<table class="c1 post"><tr>
 	<td class="b n1 topbar_1">$ulink</td>
 	<td class="b n1 sfont topbar_2">(post deleted) <span class="f-right">$postlinks</span></td>
 </tr></table>
@@ -263,7 +263,7 @@ HTML;
 	$posttext = postfilter($post['uheader'].$post['text'].$post['usignature']);
 
 	return <<<HTML
-<table class="c1" id="{$post['id']}">
+<table class="c1 post table{$uid}" id="{$post['id']}">
 	$headerbar
 	<tr>
 		<td class="b n1 topbar_1 topbar{$uid}_1 nom">$ulink</td>
