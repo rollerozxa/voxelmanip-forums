@@ -161,7 +161,7 @@ function minipost($post) {
 		<td class="b n1 sfont sidebar nom">
 			Posts: {$post['uposts']}
 		</td>
-		<td class="b n2 post mainbar">$posttext</td>
+		<td class="b n2 mainbar">$posttext</td>
 	</tr>
 HTML;
 }
@@ -280,7 +280,7 @@ HTML;
 			<br>Last post: $lastpost
 			<br>Last view: $lastview
 		</td>
-		<td class="b n2 post mainbar mainbar{$uid}" id="post_{$post['id']}">$posttext</td>
+		<td class="b n2 mainbar mainbar{$uid}" id="post_{$post['id']}">$posttext</td>
 	</tr>
 </table>
 HTML;
