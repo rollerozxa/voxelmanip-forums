@@ -49,7 +49,12 @@ function filterstyle($match) {
 	// this will prevent them being replaced with <br> tags and breaking the CSS
 	$style = str_replace("\n", '', $style);
 
-	$style = preg_replace("'@(?:keyframes|-webkit-keyframe)'si",'(no animations pls)',$style);
+	$style = preg_replace("'@(?:keyframes|-webkit-keyframe)'si",'(no animations pls)', $style);
+
+	$style = str_ireplace(
+		['body', 'html', '@import', 'content:', ':root', ':not', '.boardlogo'],
+		['bodeh', 'hetemel', '@export', '', '', '', ''],
+	$style);
 
 	return $match[1].$style.$match[3];
 }
