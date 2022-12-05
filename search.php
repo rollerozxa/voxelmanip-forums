@@ -44,7 +44,7 @@ if ($where == 1) {
 			LEFT JOIN users u ON p.user = u.id
 			LEFT JOIN threads t ON p.thread = t.id
 			LEFT JOIN forums f ON f.id = t.forum
-			WHERE pt.text LIKE CONCAT('%', ?, '%') AND ? >= f.minread
+			WHERE pt.text LIKE CONCAT('%', ?, '%') AND ? >= f.minread AND p.deleted=0
 			ORDER BY p.id",
 		[$query, $loguser['powerlevel']]);
 
