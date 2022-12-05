@@ -30,15 +30,36 @@ function powIdToName($id) {
 	};
 }
 
-function powIdToColour($id) {
-	return match ($id) {
+function powIdToColour($id, $colourset) {
+	// This could be far less messy but I'm not a good coder and just copypasted everything ~nctp2109
+	return match($id) {
 		-1 => '888888',
 		0  => 'ffffff',
-		1  => '4f77ff',
-		2  => '47b53c',
-		3  => 'd8b00d',
-		4  => 'aa3c3c'
 	};
+	if ($colorset = 1) {
+		return match ($id) {
+			1  => '97ACEF',
+			2  => 'AFFABE',
+			3  => 'FFEA95',
+			4  => '5555FF'
+			};
+	}
+	elseif ($colorset = 2) {
+		return match ($id) {
+			1  => 'F185C9',
+			2  => 'C762F2',
+			3  => 'C53A9E',
+			4  => 'FF5588'
+			};
+	}
+	else {
+		return match ($id) {
+			1  => '7C60B0',
+			2  => '47B53C',
+			3  => 'F0C413',
+			4  => 'FF55FF'
+			};
+	}
 }
 
 function powNameToId($id) {
