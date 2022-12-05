@@ -11,7 +11,7 @@ CREATE TABLE `blockedlayouts` (
   `user` mediumint(8) unsigned NOT NULL DEFAULT 0,
   `blockee` mediumint(8) unsigned NOT NULL DEFAULT 0,
   KEY `user` (`user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 CREATE TABLE `categories` (
@@ -19,7 +19,7 @@ CREATE TABLE `categories` (
   `title` varchar(255) NOT NULL,
   `ord` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `categories` (`id`, `title`, `ord`) VALUES
 (1,	'General',	2),
@@ -40,7 +40,7 @@ CREATE TABLE `forums` (
   `minthread` tinyint(4) NOT NULL DEFAULT 1,
   `minreply` tinyint(4) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `forums` (`id`, `cat`, `ord`, `title`, `descr`, `threads`, `posts`, `lastdate`, `lastuser`, `lastid`, `minread`, `minthread`, `minreply`) VALUES
 (1,	1,	1,	'General Forum',	'General topics forum',	0,	0,	0,	0,	0,	-1,	1,	1),
@@ -51,7 +51,7 @@ CREATE TABLE `forumsread` (
   `fid` int(5) NOT NULL,
   `time` int(11) NOT NULL,
   UNIQUE KEY `uid` (`uid`,`fid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 CREATE TABLE `guests` (
@@ -60,7 +60,7 @@ CREATE TABLE `guests` (
   `bot` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `lastforum` int(10) unsigned DEFAULT NULL,
   UNIQUE KEY `ip` (`ip`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 CREATE TABLE `ipbans` (
@@ -68,13 +68,13 @@ CREATE TABLE `ipbans` (
   `expires` int(12) NOT NULL,
   `banner` varchar(25) NOT NULL,
   `reason` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 CREATE TABLE `misc` (
   `views` int(11) unsigned NOT NULL DEFAULT 0,
   `attention` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `misc` (`views`, `attention`) VALUES
 (0,	'<b>The Voxelmanip Forums Codebase has been setup!</b><br>Make sure to not share a link yet and register quickly as the first user gets root administrator privileges.');
@@ -91,7 +91,7 @@ CREATE TABLE `pmsgs` (
   `del_from` tinyint(1) NOT NULL DEFAULT 0,
   `del_to` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 CREATE TABLE `posts` (
@@ -104,7 +104,7 @@ CREATE TABLE `posts` (
   `deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `threadid` (`thread`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 CREATE TABLE `poststext` (
@@ -113,7 +113,7 @@ CREATE TABLE `poststext` (
   `revision` smallint(5) unsigned NOT NULL DEFAULT 1,
   `date` int(11) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`,`revision`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 CREATE TABLE `threads` (
@@ -129,7 +129,7 @@ CREATE TABLE `threads` (
   `closed` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `sticky` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 CREATE TABLE `threadsread` (
@@ -137,7 +137,7 @@ CREATE TABLE `threadsread` (
   `tid` mediumint(9) unsigned NOT NULL,
   `time` int(11) unsigned NOT NULL,
   UNIQUE KEY `uid` (`uid`,`tid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 CREATE TABLE `users` (
@@ -174,7 +174,7 @@ CREATE TABLE `users` (
   `email` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 -- 2022-10-31 13:43:32
