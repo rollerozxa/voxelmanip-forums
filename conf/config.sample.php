@@ -20,7 +20,7 @@ $defaulttimezone = "Europe/Stockholm"; // Default timezone if people do not sele
 // Simple security question for the registration page. Uncomment to disable.
 $puzzle = ["What is the square root of 144?", "12"];
 
-$override_theme = ''; // If you want to lock everyone to a specific theme.
+//$override_theme = ''; // If you want to lock everyone to a specific theme.
 
 $lockdown = false; // Put board in lockdown mode.
 //$lockdownText = ""; // Custom text to be put in the lockdown mode page.
