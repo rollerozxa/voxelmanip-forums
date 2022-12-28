@@ -160,6 +160,7 @@ CREATE TABLE `users` (
   `theme` varchar(32) DEFAULT NULL,
   `birthday` varchar(10) DEFAULT NULL,
   `rankset` tinyint(3) unsigned NOT NULL DEFAULT 0,
+  `colorset` tinyint(2) unsigned NOT NULL DEFAULT 2,
   `showemail` tinyint(1) unsigned DEFAULT NULL,
   `avatar` tinyint(1) unsigned DEFAULT NULL,
   `blocklayouts` tinyint(1) unsigned NOT NULL DEFAULT 0,

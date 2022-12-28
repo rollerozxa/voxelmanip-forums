@@ -75,7 +75,7 @@ function rainbowcolour() {
 }
 
 function userfields($tbl = '', $pf = '') {
-	$fields = ['id', 'name', 'powerlevel', 'customcolour'];
+	$fields = ['id', 'name', 'powerlevel', 'colourset', 'customcolour'];
 
 	$ret = '';
 	foreach ($fields as $f) {
@@ -115,7 +115,7 @@ function userdisp($user, $u = '') {
 	if ($user[$u.'customcolour'] != '000000') //Over-ride for custom colours
 		$nc = $user[$u.'customcolour'];
 	else
-		$nc = powIdToColour($user[$u.'powerlevel']);
+		$nc = powIdToColour($user[$u.'powerlevel'], $user[$u.'colourset');
 
 	// Random username colour on birthday/special events
 	if (isset($rainbowusers) || isset($userbirthdays[$user[$u.'id']]))
