@@ -10,7 +10,7 @@ function needs_login() {
 	}
 }
 
-$powerlevels = [
+$ranks = [
 	-1 => 'Banned',
 	//0  => 'Guest',
 	1  => 'Normal User',

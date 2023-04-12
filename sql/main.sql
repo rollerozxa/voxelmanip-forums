@@ -154,7 +154,7 @@ CREATE TABLE `users` (
   `ip` varchar(15) NOT NULL DEFAULT '0.0.0.0',
   `url` varchar(150) NOT NULL DEFAULT '',
   `tempbanned` int(10) unsigned NOT NULL DEFAULT 0,
-  `powerlevel` tinyint(4) NOT NULL DEFAULT 1,
+  `rank` tinyint(4) NOT NULL DEFAULT 1,
   `ppp` smallint(3) unsigned NOT NULL DEFAULT 20,
   `tpp` smallint(3) unsigned NOT NULL DEFAULT 20,
   `theme` varchar(32) DEFAULT NULL,

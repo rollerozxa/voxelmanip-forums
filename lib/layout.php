@@ -175,7 +175,7 @@ function forumlist($currentforum = -1) {
 	global $sql, $loguser;
 
 	$r = $sql->query("SELECT c.title ctitle,f.id,f.title,f.cat FROM forums f LEFT JOIN categories c ON c.id=f.cat WHERE ? >= f.minread ORDER BY c.ord,c.id,f.ord,f.id",
-		[$loguser['powerlevel']]);
+		[$loguser['rank']]);
 	$out = '<select id="forumselect">';
 	$c = -1;
 	while ($d = $r->fetch()) {

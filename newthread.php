@@ -5,11 +5,11 @@ needs_login();
 $fid = $_GET['id'] ?? null;
 $action = $_POST['action'] ?? null;
 
-$forum = $sql->fetch("SELECT * FROM forums WHERE id = ? AND ? >= minread", [$fid, $loguser['powerlevel']]);
+$forum = $sql->fetch("SELECT * FROM forums WHERE id = ? AND ? >= minread", [$fid, $loguser['rank']]);
 
 if (!$forum)
 	error("Forum does not exist.");
-if ($forum['minthread'] > $loguser['powerlevel'])
+if ($forum['minthread'] > $loguser['rank'])
 	error("You have no permissions to create threads in this forum!");
 
 $title = trim($_POST['title'] ?? '');

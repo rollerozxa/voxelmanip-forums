@@ -11,7 +11,7 @@ $threads = $sql->query("SELECT u.id uid, u.name uname, p.*, t.title, t.forum, f.
 		LEFT JOIN forums f ON f.id = t.forum
 		WHERE ? >= f.minread
 		ORDER BY p.date DESC LIMIT 30",
-	[$loguser['powerlevel']]);
+	[$loguser['rank']]);
 
 $fullurl = (isset($_SERVER['HTTPS']) ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'];
 

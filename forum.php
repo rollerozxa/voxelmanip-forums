@@ -24,13 +24,13 @@ $ufields = userfields('u1', 'u1').",".userfields('u2', 'u2').",";
 if ($fid) {
 	if ($log) {
 		$forum = $sql->fetch("SELECT f.*, r.time rtime FROM forums f LEFT JOIN forumsread r ON (r.fid = f.id AND r.uid = ?)
-			WHERE f.id = ? AND ? >= minread", [$loguser['id'], $fid, $loguser['powerlevel']]);
+			WHERE f.id = ? AND ? >= minread", [$loguser['id'], $fid, $loguser['rank']]);
 		if (!$forum['rtime']) $forum['rtime'] = 0;
 
 		$isread = ", (NOT (r.time<t.lastdate OR isnull(r.time)) OR t.lastdate<'$forum[rtime]') isread";
 		$threadsread = "LEFT JOIN threadsread r ON (r.tid=t.id AND r.uid=$loguser[id])";
 	} else
-		$forum = $sql->fetch("SELECT * FROM forums WHERE id = ? AND ? >= minread", [$fid, $loguser['powerlevel']]);
+		$forum = $sql->fetch("SELECT * FROM forums WHERE id = ? AND ? >= minread", [$fid, $loguser['rank']]);
 
 	if (!isset($forum['id'])) error("Forum does not exist.");
 
@@ -53,7 +53,7 @@ if ($fid) {
 	if ($log)
 		$topbot['actions']["index.php?action=markread&fid=$fid"] = "Mark forum read";
 
-	if ($loguser['powerlevel'] >= $forum['minthread'])
+	if ($loguser['rank'] >= $forum['minthread'])
 		$topbot['actions']["newthread.php?id=$fid"] = 'New thread';
 
 } elseif ($uid) {
@@ -71,12 +71,12 @@ if ($fid) {
 			WHERE t.user = ? AND ? >= minread
 			ORDER BY t.sticky DESC, t.lastdate DESC
 			LIMIT ?,?",
-		[$uid, $loguser['powerlevel'], $offset, $tpp]);
+		[$uid, $loguser['rank'], $offset, $tpp]);
 
 	$forum['threads'] = $sql->result("SELECT count(*) FROM threads t
 			LEFT JOIN forums f ON f.id = t.forum
 			WHERE t.user = ? AND ? >= minread",
-		[$uid, $loguser['powerlevel']]);
+		[$uid, $loguser['rank']]);
 
 	$topbot = [
 		'breadcrumb' => ["profile.php?id=$uid" => $user['name']],
@@ -96,12 +96,12 @@ if ($fid) {
 			WHERE t.lastdate > ? AND ? >= f.minread
 			ORDER BY t.lastdate DESC
 			LIMIT ?,?",
-		[$mintime, $loguser['powerlevel'], $offset, $tpp]);
+		[$mintime, $loguser['rank'], $offset, $tpp]);
 
 	$forum['threads'] = $sql->result("SELECT count(*) FROM threads t
 			LEFT JOIN forums f ON f.id = t.forum
 			WHERE t.lastdate > ? AND ? >= f.minread",
-		[$mintime, $loguser['powerlevel']]);
+		[$mintime, $loguser['rank']]);
 
 } else {
 	error("Forum does not exist.");

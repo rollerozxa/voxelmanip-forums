@@ -7,13 +7,13 @@ $action = $_POST['action'] ?? null;
 
 $thread = $sql->fetch("SELECT t.*, f.title ftitle, f.minreply fminreply
 	FROM threads t LEFT JOIN forums f ON f.id=t.forum
-	WHERE t.id = ? AND ? >= f.minread", [$tid, $loguser['powerlevel']]);
+	WHERE t.id = ? AND ? >= f.minread", [$tid, $loguser['rank']]);
 
 if (!$thread)
 	error("Thread does not exist.");
-if ($thread['fminreply'] > $loguser['powerlevel'])
+if ($thread['fminreply'] > $loguser['rank'])
 	error("You have no permissions to create posts in this forum!");
-if ($thread['closed'] && $loguser['powerlevel'] < 2)
+if ($thread['closed'] && $loguser['rank'] < 2)
 	error("You can't post in closed threads!");
 
 $message = trim($_POST['message'] ?? '');
@@ -21,7 +21,7 @@ $message = trim($_POST['message'] ?? '');
 $error = '';
 if ($action == 'Submit') {
 	$lastpost = $sql->fetch("SELECT id,user,date FROM posts WHERE thread = ? ORDER BY id DESC LIMIT 1", [$thread['id']]);
-	if ($lastpost['user'] == $loguser['id'] && $lastpost['date'] >= (time() - 43200) && $loguser['powerlevel'] < 2)
+	if ($lastpost['user'] == $loguser['id'] && $lastpost['date'] >= (time() - 43200) && $loguser['rank'] < 2)
 		$error = "You can't double post until it's been at least 12 hours!";
 	if ($lastpost['user'] == $loguser['id'] && $lastpost['date'] >= (time() - 30))
 		$error = "You must wait 30 seconds before posting consecutively.";
@@ -72,7 +72,7 @@ if ($pid) {
 			WHERE p.id = ?", [$pid]);
 
 	//does the user have reading access to the quoted post?
-	if ($loguser['powerlevel'] < $post['minread']) {
+	if ($loguser['rank'] < $post['minread']) {
 		$post['name'] = 'your overlord';
 		$post['text'] = '';
 	}

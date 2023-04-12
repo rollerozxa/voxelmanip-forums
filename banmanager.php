@@ -3,8 +3,8 @@ require('lib/common.php');
 
 $id = (int)$_GET['id'];
 
-$tuser = $sql->result("SELECT powerlevel FROM users WHERE id = ?",[$id]);
-if ($loguser['powerlevel'] < 2 || $loguser['powerlevel'] <= $tuser)
+$tuser = $sql->result("SELECT rank FROM users WHERE id = ?",[$id]);
+if ($loguser['rank'] < 2 || $loguser['rank'] <= $tuser)
 	error("You have no permissions to do this!");
 
 if ($uid = $_GET['id']) {
@@ -20,14 +20,14 @@ if (isset($_POST['banuser'])) {
 	if ($_POST['title'])
 		$banreason .= ': '.esc($_POST['title']);
 
-	$sql->query("UPDATE users SET powerlevel = -1, title = ?, tempbanned = ? WHERE id = ?",
+	$sql->query("UPDATE users SET rank = -1, title = ?, tempbanned = ? WHERE id = ?",
 		[$banreason, ($_POST['tempbanned'] > 0 ? ($_POST['tempbanned'] + time()) : 0), $user['id']]);
 
 	redirect("profile.php?id=$user[id]");
 } elseif (isset($_POST['unbanuser'])) {
-	if ($user['powerlevel'] != -1) error("This user is not a banned user.");
+	if ($user['rank'] != -1) error("This user is not a banned user.");
 
-	$sql->query("UPDATE users SET powerlevel = 1, title = '', tempbanned = 0 WHERE id = ?", [$user['id']]);
+	$sql->query("UPDATE users SET rank = 1, title = '', tempbanned = 0 WHERE id = ?", [$user['id']]);
 
 	redirect("profile.php?id=$user[id]");
 }

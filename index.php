@@ -33,7 +33,7 @@ $forums = $sql->query("SELECT f.*, ".($log ? "r.time rtime, " : '').userfields('
 		. ($log ? "LEFT JOIN forumsread r ON r.fid = f.id AND r.uid = ".$loguser['id'] : '')
 		. " WHERE ? >= f.minread AND f.cat != 0 "
 		. " ORDER BY c.ord,c.id,f.ord,f.id ",
-		[$loguser['powerlevel']]);
+		[$loguser['rank']]);
 $cat = -1;
 
 if ($log)

@@ -16,7 +16,7 @@ $order = 'posts'.$sortby;
 if ($sort == 'name') $order = 'name'.$sortby;
 if ($sort == 'reg') $order = 'joined'.$sortby;
 
-$where = (is_numeric($pow) ? "WHERE powerlevel = $pow" : '');
+$where = (is_numeric($pow) ? "WHERE rank = $pow" : '');
 
 $users = $sql->query("SELECT * FROM users $where ORDER BY $order LIMIT ?,?", [($page - 1) * $ppp, $ppp]);
 $num = $sql->result("SELECT COUNT(*) FROM users $where");
@@ -29,7 +29,7 @@ if ($num >= $ppp) {
 }
 
 $groups = [];
-foreach ($powerlevels as $id => $title) {
+foreach ($ranks as $id => $title) {
 	$grouptitle = '<span style="color:#'.powIdToColour($id).'">'.$title.'</span>';
 	$groups[] = mlink($grouptitle, $sort, $id, $page, $orderby);
 }

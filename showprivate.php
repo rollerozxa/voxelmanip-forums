@@ -12,7 +12,7 @@ $pmsg = $sql->fetch("SELECT $fieldlist p.* FROM pmsgs p LEFT JOIN users u ON u.i
 if ($pmsg == null) error("Private message does not exist.");
 $tologuser = ($pmsg['userto'] == $loguser['id']);
 
-if ((!$tologuser && $pmsg['userfrom'] != $loguser['id']) && !($loguser['powerlevel'] > 3))
+if ((!$tologuser && $pmsg['userfrom'] != $loguser['id']) && !($loguser['rank'] > 3))
 	error("Private message does not exist.");
 elseif ($tologuser && $pmsg['unread'])
 	$sql->query("UPDATE pmsgs SET unread = 0 WHERE id = ?", [$pid]);

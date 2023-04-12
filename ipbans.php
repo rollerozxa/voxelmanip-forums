@@ -1,7 +1,7 @@
 <?php
 require('lib/common.php');
 
-if ($loguser['powerlevel'] < 3) error("Error", "You have no permissions to do this!");
+if ($loguser['rank'] < 3) error("Error", "You have no permissions to do this!");
 
 $action = $_GET['action'] ?? null;
 $what = $_GET['what'] ?? null;

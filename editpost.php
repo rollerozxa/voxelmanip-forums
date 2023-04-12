@@ -8,7 +8,7 @@ $action = $_POST['action'] ?? '';
 $pid = $_GET['pid'] ?? null;
 
 if ($act == 'delete' || $act == 'undelete') {
-	if ($loguser['powerlevel'] <= 1)
+	if ($loguser['rank'] <= 1)
 		error("You do not have the permission to do this.");
 
 	$sql->query("UPDATE posts SET deleted = ? WHERE id = ?", [($act == 'delete' ? 1 : 0), $pid]);
@@ -16,13 +16,13 @@ if ($act == 'delete' || $act == 'undelete') {
 }
 
 $thread = $sql->fetch("SELECT p.user puser, t.*, f.title ftitle FROM posts p LEFT JOIN threads t ON t.id = p.thread "
-	."LEFT JOIN forums f ON f.id=t.forum WHERE p.id = ? AND ? >= f.minread", [$pid, $loguser['powerlevel']]);
+	."LEFT JOIN forums f ON f.id=t.forum WHERE p.id = ? AND ? >= f.minread", [$pid, $loguser['rank']]);
 
 if (!$thread) $pid = 0;
 
-if ($thread['closed'] && $loguser['powerlevel'] <= 1)
+if ($thread['closed'] && $loguser['rank'] <= 1)
 	error("You can't edit a post in closed threads!");
-if ($loguser['powerlevel'] < 3 && $loguser['id'] != $thread['puser'])
+if ($loguser['rank'] < 3 && $loguser['id'] != $thread['puser'])
 	error("You do not have permission to edit this post.");
 if ($pid == -1)
 	error("Invalid post ID.");

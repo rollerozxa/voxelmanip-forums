@@ -1,7 +1,7 @@
 <?php
 require('lib/common.php');
 
-if ($loguser['powerlevel'] < 3) error('You have no permissions to do this!');
+if ($loguser['rank'] < 3) error('You have no permissions to do this!');
 
 $error = '';
 
@@ -137,13 +137,13 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 			<tr class="h"><td class="b h" colspan="2">Permissions</td></tr>
 			<tr>
 				<td class="b n1 center">Who can view:</td>
-				<td class="b n2"><?=fieldselect('minread', $forum['minread'], $powerlevels) ?></td>
+				<td class="b n2"><?=fieldselect('minread', $forum['minread'], $ranks) ?></td>
 			</tr><tr>
 				<td class="b n1 center">Who can make threads:</td>
-				<td class="b n2"><?=fieldselect('minthread', $forum['minthread'], $powerlevels) ?></td>
+				<td class="b n2"><?=fieldselect('minthread', $forum['minthread'], $ranks) ?></td>
 			</tr><tr>
 				<td class="b n1 center">Who can reply:</td>
-				<td class="b n2"><?=fieldselect('minreply', $forum['minreply'], $powerlevels) ?></td>
+				<td class="b n2"><?=fieldselect('minreply', $forum['minreply'], $ranks) ?></td>
 			</tr>
 			<tr class="h"><td class="b h" colspan="2">&nbsp;</td></tr>
 			<tr>

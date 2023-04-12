@@ -9,7 +9,7 @@ $topbot = [
 	'title' => 'Send'
 ];
 
-if ($loguser['powerlevel'] < 1) error("You have no permissions to do this!");
+if ($loguser['rank'] < 1) error("You have no permissions to do this!");
 
 $userto = $_POST['userto'] ?? '';
 $title = $_POST['title'] ?? '';
@@ -37,7 +37,7 @@ if ($action == 'Submit') {
 
 if (isset($_GET['pid']) && $pid = $_GET['pid']) {
 	$post = $sql->fetch("SELECT u.name name, p.title, p.text FROM pmsgs p LEFT JOIN users u ON p.userfrom = u.id WHERE p.id = ?"
-		.($loguser['powerlevel'] < 4 ? " AND (p.userfrom = ".$loguser['id']." OR p.userto=".$loguser['id'].")" : ''), [$pid]);
+		.($loguser['rank'] < 4 ? " AND (p.userfrom = ".$loguser['id']." OR p.userto=".$loguser['id'].")" : ''), [$pid]);
 	if ($post) {
 		$userto = $post['name'];
 		$title = 'Re: '.$post['title'];

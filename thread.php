@@ -38,8 +38,8 @@ else
 $action = '';
 $act = $_POST['action'] ?? '';
 
-if (isset($tid) && $log && $act && ($loguser['powerlevel'] > 1 ||
-		($loguser['id'] == $threadcreator && $act == "rename" && $loguser['powerlevel'] > 0))) {
+if (isset($tid) && $log && $act && ($loguser['rank'] > 1 ||
+		($loguser['id'] == $threadcreator && $act == "rename" && $loguser['rank'] > 0))) {
 
 	if ($act == 'stick')	$action = ',sticky=1';
 	if ($act == 'unstick')	$action = ',sticky=0';
@@ -51,7 +51,7 @@ if (isset($tid) && $log && $act && ($loguser['powerlevel'] > 1 ||
 }
 
 // determine string for revision pinning
-if (isset($_GET['pin']) && isset($_GET['rev']) && is_numeric($_GET['pin']) && is_numeric($_GET['rev']) && $loguser['powerlevel'] > 1)
+if (isset($_GET['pin']) && isset($_GET['rev']) && is_numeric($_GET['pin']) && is_numeric($_GET['rev']) && $loguser['rank'] > 1)
 	$pinstr = "AND (pt2.id<>$_GET[pin] OR pt2.revision<>($_GET[rev]+1)) ";
 else
 	$pinstr = '';
@@ -68,7 +68,7 @@ if ($viewmode == "thread") {
 			. "FROM threads t LEFT JOIN forums f ON f.id=t.forum "
 			. ($log ? "LEFT JOIN forumsread r ON (r.fid=f.id AND r.uid=$loguser[id]) " : '')
 			. "WHERE t.id = ? AND ? >= f.minread",
-			[$tid, $loguser['powerlevel']]);
+			[$tid, $loguser['rank']]);
 
 	if (!isset($thread['id'])) error("Thread does not exist.");
 
@@ -115,7 +115,7 @@ if ($viewmode == "thread") {
 			LEFT JOIN forums f ON f.id = t.forum
 			WHERE p.user = ? AND ? >= f.minread
 			ORDER BY p.id LIMIT ?,?",
-		[$uid, $loguser['powerlevel'], $offset, $ppp]);
+		[$uid, $loguser['rank'], $offset, $ppp]);
 
 	$thread['posts'] = $sql->result("SELECT count(*) FROM posts p WHERE user = ?", [$uid]);
 } elseif ($viewmode == "time") {
@@ -132,7 +132,7 @@ if ($viewmode == "thread") {
 			WHERE p.date > ? AND ? >= f.minread
 			ORDER BY p.date DESC
 			LIMIT ?,?",
-		[$mintime, $loguser['powerlevel'], $offset, $ppp]);
+		[$mintime, $loguser['rank'], $offset, $ppp]);
 
 	$thread['posts'] = $sql->result("SELECT count(*) FROM posts WHERE date > ?", [$mintime]);
 } else
@@ -153,8 +153,8 @@ if ($viewmode == "thread") {
 	];
 
 	$faccess = $sql->fetch("SELECT id,minreply FROM forums WHERE id = ?",[$thread['forum']]);
-	if ($faccess['minreply'] <= $loguser['powerlevel']) {
-		if ($loguser['powerlevel'] > 1 && $thread['closed'])
+	if ($faccess['minreply'] <= $loguser['rank']) {
+		if ($loguser['rank'] > 1 && $thread['closed'])
 			$topbot['actions'] = ['none' => 'Thread closed', "newreply.php?id=$tid" => 'New reply'];
 		elseif ($thread['closed'])
 			$topbot['actions'] = ['none' => 'Thread closed'];
@@ -172,9 +172,9 @@ if ($viewmode == "thread") {
 }
 
 $modlinks = '';
-if (isset($tid) && ($loguser['powerlevel'] > 1 || ($loguser['id'] == $thread['user'] && !$thread['closed'] && $loguser['powerlevel'] > 0))) {
+if (isset($tid) && ($loguser['rank'] > 1 || ($loguser['id'] == $thread['user'] && !$thread['closed'] && $loguser['rank'] > 0))) {
 	$link = "<a href=javascript:submitmod";
-	if ($loguser['powerlevel'] > 1) {
+	if ($loguser['rank'] > 1) {
 		$stick = '<li>'.$link.($thread['sticky'] ? "('unstick')>Unstick" : "('stick')>Stick").'</a></li>';
 		$close = '<li>'.$link.($thread['closed'] ? "('open')>Open" : "('close')>Close").'</a></li>';
 		$trash = ($thread['forum'] != $trashid ? '<li><a href=javascript:submitmod(\'trash\') onclick="trashConfirm(event)">Trash</a></li>' : '');
@@ -239,7 +239,7 @@ for ($i = 1; $post = $posts->fetch(); $i++) {
 	} else
 		$post['maxrevision'] = $post['cur_revision'];
 
-	if (isset($thread['forum']) && $loguser['powerlevel'] > 1 && isset($_GET['pin']) && $post['id'] == $_GET['pin'])
+	if (isset($thread['forum']) && $loguser['rank'] > 1 && isset($_GET['pin']) && $post['id'] == $_GET['pin'])
 		$post['deleted'] = false;
 
 	echo "<br>".threadpost($post, $pthread);
@@ -249,7 +249,7 @@ if_empty_query($i, "No posts were found.", 0, true);
 
 echo "$pagelist".(!isset($time) ? '<br>' : '');
 
-if (isset($thread['id']) && $loguser['powerlevel'] >= $faccess['minreply'] && !$thread['closed']) {
+if (isset($thread['id']) && $loguser['rank'] >= $faccess['minreply'] && !$thread['closed']) {
 	?><form action="newreply.php?id=<?=$tid?>" method="post">
 <table class="c1">
 	<tr class="h"><td class="b h" colspan=2>Warp Whistle Reply</a></td>

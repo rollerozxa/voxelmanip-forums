@@ -26,12 +26,12 @@ if (isset($_COOKIE['token'])) {
 
 if (!$log) {
 	$loguser = [];
-	$loguser['id'] = $loguser['powerlevel'] = 0;
+	$loguser['id'] = $loguser['rank'] = 0;
 	$loguser['theme'] = $defaulttheme;
 	$loguser['ppp'] = $loguser['tpp'] = 20;
 }
 
-if ($lockdown && $loguser['powerlevel'] < 1) {
+if ($lockdown && $loguser['rank'] < 1) {
 	echo <<<HTML
 <body style="background-color:#B02020;max-width:500px;color:#ffffff;margin:40px auto;">
 	<p>The board is currently in maintenance mode.</p>
@@ -58,7 +58,7 @@ if (!is_file("theme/$theme/$theme.css"))
 	$theme = $defaulttheme;
 
 //Unban users whose tempbans have expired.
-$sql->query("UPDATE users SET powerlevel = 1, title = '', tempbanned = 0 WHERE tempbanned < ? AND tempbanned > 0", [time()]);
+$sql->query("UPDATE users SET rank = 1, title = '', tempbanned = 0 WHERE tempbanned < ? AND tempbanned > 0", [time()]);
 
 $bot = 0;
 if (str_replace($botlist, "x", strtolower($useragent)) != strtolower($useragent))
@@ -119,9 +119,9 @@ HTML;
 		'search.php' => 'Search'];
 
 	if ($log) {
-		if ($loguser['powerlevel'] > 0)
+		if ($loguser['rank'] > 0)
 			$userlinks['editprofile.php'] = 'Edit profile';
-		if ($loguser['powerlevel'] > 2)
+		if ($loguser['rank'] > 2)
 			$userlinks['management.php'] = 'Admin';
 	}
 

@@ -13,7 +13,7 @@ foreach ($smilies as $smily) {
 
 // Rank colours
 $nctable = '';
-foreach ($powerlevels as $id => $title)
+foreach ($ranks as $id => $title)
 	$nctable .= sprintf('<td class="b n1" width="140"><b><span style="color:#%s">%s</span></b></td>', powIdToColour($id), $title);
 
 if (file_exists('conf/faq.php'))

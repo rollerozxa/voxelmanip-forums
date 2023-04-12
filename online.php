@@ -7,7 +7,7 @@ $time = $_GET['time'] ?? null;
 
 if (!$time || !is_numeric($time)) $time = 900;
 
-$showips = $loguser['powerlevel'] > 2;
+$showips = $loguser['rank'] > 2;
 
 $users = $sql->query("SELECT * FROM users WHERE lastview > ?", [(time()-$time)]);
 ?>

@@ -176,7 +176,7 @@ function threadpost($post, $pthread = '') {
 
 	if (isset($post['deleted']) && $post['deleted']) {
 		$postlinks = '';
-		if ($loguser['powerlevel'] > 1) {
+		if ($loguser['rank'] > 1) {
 			$postlinks = sprintf(
 				'<a href="thread.php?pid=%s&pin=%s&rev=%s#%s">Peek</a> | <a href="editpost.php?pid=%s&act=undelete">Undelete</a> | ',
 			$post['id'], $post['id'], $post['revision'], $post['id'], $post['id']);
@@ -227,16 +227,16 @@ HTML;
 			$postlinks .= " | <a href=\"newreply.php?id=$post[thread]&pid=$post[id]\">Reply</a>";
 
 		// "Edit" link for admins or post owners, but not banned users
-		if ($loguser['powerlevel'] > 2 || $loguser['id'] == $post['uid'])
+		if ($loguser['rank'] > 2 || $loguser['id'] == $post['uid'])
 			$postlinks .= " | <a href=\"editpost.php?pid=$post[id]\">Edit</a>";
 
-		if ($loguser['powerlevel'] > 1)
+		if ($loguser['rank'] > 1)
 			$postlinks .= ' | <a href="editpost.php?pid='.urlencode($post['id']).'&act=delete">Delete</a>';
 
-		if ($loguser['powerlevel'] > 2)
+		if ($loguser['rank'] > 2)
 			$postlinks .= ' | IP: <span class="sensitive">'.$post['ip'].'</span>';
 
-		if (isset($post['maxrevision']) && $loguser['powerlevel'] > 1 && $post['maxrevision'] > 1) {
+		if (isset($post['maxrevision']) && $loguser['rank'] > 1 && $post['maxrevision'] > 1) {
 			$revisionstr.=" | Revision ";
 			for ($i = 1; $i <= $post['maxrevision']; $i++)
 				$revisionstr .= "<a href=\"thread.php?pid=$post[id]&pin=$post[id]&rev=$i#$post[id]\">$i</a> ";

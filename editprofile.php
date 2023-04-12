@@ -15,14 +15,14 @@ if ($act == 'Edit profile') {
 
 $user = $sql->fetch("SELECT * FROM users WHERE id = ?", [$targetuserid]);
 
-if ($loguser['id'] != $targetuserid && ($loguser['powerlevel'] < 3 || $loguser['powerlevel'] <= $user['powerlevel']))
+if ($loguser['id'] != $targetuserid && ($loguser['rank'] < 3 || $loguser['rank'] <= $user['rank']))
 	error("You have no permissions to do this!");
 
 if (!$user) error("This user doesn't exist!");
 
 $user['timezone'] = $user['timezone'] ?: $defaulttimezone;
 
-$canedituser = $loguser['powerlevel'] > 2 && ($loguser['powerlevel'] > $user['powerlevel'] || $targetuserid == $loguser['id']);
+$canedituser = $loguser['rank'] > 2 && ($loguser['rank'] > $user['rank'] || $targetuserid == $loguser['id']);
 
 if ($act == 'Edit profile') {
 	$error = '';
@@ -61,9 +61,9 @@ if ($act == 'Edit profile') {
 		$birthday = $byear.'-'.str_pad($bmonth, 2, "0", STR_PAD_LEFT).'-'.str_pad($bday, 2, "0", STR_PAD_LEFT);
 
 	if ($canedituser) {
-		$targetgroup = $_POST['powerlevel'];
+		$targetgroup = $_POST['rank'];
 
-		if ($targetgroup >= $loguser['powerlevel'] && $targetgroup != $user['powerlevel'])
+		if ($targetgroup >= $loguser['rank'] && $targetgroup != $user['rank'])
 			$error .= "- You do not have the permissions to assign this group.<br>";
 
 		$targetname = $_POST['name'];
@@ -124,7 +124,7 @@ if ($act == 'Edit profile') {
 			$fields['name'] = $targetname;
 
 		if (isset($targetgroup) && $targetgroup != 0)
-			$fields['powerlevel'] = $targetgroup;
+			$fields['rank'] = $targetgroup;
 
 		// Construct a query containing all fields.
 		foreach ($fields as $fieldk => $fieldv) {
@@ -175,7 +175,7 @@ echo '<form action="editprofile.php?id='.$targetuserid.'" method="post" enctype=
 .($canedituser ? fieldrow('Username', fieldinput(40, 255, 'name')) : fieldrow('Username', $user['name']))
 .fieldrow('Password', $passinput)
 .	catheader('Appearance')
-.($canedituser ? fieldrow('Rank', fieldselect('powerlevel', $user['powerlevel'], $powerlevels)) : '')
+.($canedituser ? fieldrow('Rank', fieldselect('rank', $user['rank'], $ranks)) : '')
 .(count($rankset_names) > 1 ? fieldrow('Rankset', fieldselect('rankset', $user['rankset'], ranklist())) : '')
 .((checkctitle()) ? fieldrow('Title', fieldinput(40, 255, 'title')) : '')
 .fieldrow('Avatar', '<input type="file" name="avatar" size="40">'.$erasepfp

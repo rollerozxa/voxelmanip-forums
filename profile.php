@@ -15,7 +15,7 @@ $lastpostlink = '';
 if ($user['posts'] != 0) {
 	$thread = $sql->fetch("SELECT p.id, t.title ttitle, f.title ftitle, t.forum FROM forums f
 		LEFT JOIN threads t ON t.forum = f.id LEFT JOIN posts p ON p.thread = t.id
-		WHERE p.date = ? AND p.user = ? AND ? >= f.minread", [$user['lastpost'], $uid, $loguser['powerlevel']]);
+		WHERE p.date = ? AND p.user = ? AND ? >= f.minread", [$user['lastpost'], $uid, $loguser['rank']]);
 
 	if ($thread)
 		$lastpostlink = sprintf(
@@ -57,17 +57,17 @@ if ($log) {
 
 	$links["profile.php?id=$uid&toggleblock"] = ($isblocked ? 'Unblock' : 'Block').' layout';
 
-	if ($loguser['powerlevel'] > 0)
+	if ($loguser['rank'] > 0)
 		$links["sendprivate.php?uid=$uid"] = 'Send PM';
 }
 
-if ($loguser['powerlevel'] > 3)
+if ($loguser['rank'] > 3)
 	$links["private.php?id=$uid"] = 'Show PMs';
-if ($loguser['powerlevel'] > 2 && $loguser['powerlevel'] > $user['powerlevel'])
+if ($loguser['rank'] > 2 && $loguser['rank'] > $user['rank'])
 	$links["editprofile.php?id=$uid"] = 'Edit user';
 
-if ($loguser['powerlevel'] > 1) {
-	if ($user['powerlevel'] != -1)
+if ($loguser['rank'] > 1) {
+	if ($user['rank'] != -1)
 		$links["banmanager.php?id=$uid"] = 'Ban user';
 	else
 		$links["banmanager.php?unban&id=$uid"] = 'Unban user';
@@ -82,7 +82,7 @@ $logtzoff = $logtz->getOffset(new DateTime("now"));
 
 $profilefields = [
 	"General information" => [
-		'Group'		=> powIdToName($user['powerlevel']),
+		'Group'		=> powIdToName($user['rank']),
 		'Total posts'	=> sprintf('%s (%1.02f per day)', $user['posts'], $user['posts'] / $days),
 		'Total threads'=> sprintf('%s (%1.02f per day)' ,$user['threads'], $user['threads'] / $days),
 		'Registered on'=> dateformat($user['joined']).' ('.timeunits($days * 86400).' ago)',
@@ -91,7 +91,7 @@ $profilefields = [
 				'%s (%s ago) %s %s',
 			dateformat($user['lastview']), timeunits(time() - $user['lastview']),
 			($user['url'] ? sprintf('<br>at <a href="%s">%s</a>', esc($user['url']), esc($user['url'])) : ''),
-			($loguser['powerlevel'] > 2 ? '<br>from IP: <span class="sensitive">'.$user['ip'].'</span>' : ''))
+			($loguser['rank'] > 2 ? '<br>from IP: <span class="sensitive">'.$user['ip'].'</span>' : ''))
 	],
 	"User information" => [
 		'Bio'		=> ($user['bio'] ? postfilter($user['bio']) : ''),

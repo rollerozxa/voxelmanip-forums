@@ -3,7 +3,7 @@ require('lib/common.php');
 pageheader('Management');
 
 $mlinks = [];
-if ($loguser['powerlevel'] > 2) {
+if ($loguser['rank'] > 2) {
 	$mlinks = [
 		"manageforums.php" => 'Manage forums',
 		"ipbans.php" => 'Manage IP bans',

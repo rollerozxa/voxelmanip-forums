@@ -28,7 +28,7 @@ if ($act == 'Register') {
 
 		$id = $sql->insertid();
 
-		if ($id == 1) $sql->query("UPDATE users SET powerlevel = 4 WHERE id = ?",[$id]);
+		if ($id == 1) $sql->query("UPDATE users SET rank = 4 WHERE id = ?",[$id]);
 
 		// mark existing threads and forums as read
 		$sql->query("INSERT INTO threadsread (uid,tid,time) SELECT ?,id,? FROM threads", [$id, time()]);

@@ -17,13 +17,13 @@ if ($view == 'sent') {
 	$sent = false;
 }
 
-$id = ($loguser['powerlevel'] > 3 ? ($_GET['id'] ?? 0) : 0);
+$id = ($loguser['rank'] > 3 ? ($_GET['id'] ?? 0) : 0);
 
 $showdel = isset($_GET['showdel']);
 
 if (isset($_GET['action']) && $_GET['action'] == "del") {
 	$owner = $sql->result("SELECT user$fieldn2 FROM pmsgs WHERE id = ?", [$id]);
-	if ($loguser['powerlevel'] > 3 || $owner == $loguser['id'])
+	if ($loguser['rank'] > 3 || $owner == $loguser['id'])
 		$sql->query("UPDATE pmsgs SET del_$fieldn2 = ? WHERE id = ?", [!$showdel, $id]);
 	else
 		error("You are not allowed to (un)delete that message.");
@@ -32,8 +32,8 @@ if (isset($_GET['action']) && $_GET['action'] == "del") {
 }
 
 $ptitle = 'Private messages' . ($sent ? ' (sent)' : '');
-if ($id && $loguser['powerlevel'] > 3) {
-	$user = $sql->fetch("SELECT id,name,customcolour,powerlevel FROM users WHERE id = ?", [$id]);
+if ($id && $loguser['rank'] > 3) {
+	$user = $sql->fetch("SELECT id,name,customcolour,rank FROM users WHERE id = ?", [$id]);
 	if ($user == null) error("User doesn't exist.");
 	pageheader($user['name']."'s ".strtolower($ptitle));
 	$title = userlink($user)."'s ".strtolower($ptitle);

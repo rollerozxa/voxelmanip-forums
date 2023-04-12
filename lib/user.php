@@ -16,7 +16,7 @@ function checkctitle() {
 	global $loguser;
 
 	// TODO: allow for users to set their own custom title
-	if ($loguser['powerlevel'] > 1) return true;
+	if ($loguser['rank'] > 1) return true;
 
 	return false;
 }
@@ -25,7 +25,7 @@ function checkcusercolor() {
 	global $loguser;
 
 	// TODO: allow for users to set their own custom colour
-	if ($loguser['powerlevel'] > 2) return true;
+	if ($loguser['rank'] > 2) return true;
 
 	return false;
 }
@@ -75,7 +75,7 @@ function rainbowcolour() {
 }
 
 function userfields($tbl = '', $pf = '') {
-	$fields = ['id', 'name', 'powerlevel', 'customcolour'];
+	$fields = ['id', 'name', 'rank', 'customcolour'];
 
 	$ret = '';
 	foreach ($fields as $f) {
@@ -115,7 +115,7 @@ function userdisp($user, $u = '') {
 	if ($user[$u.'customcolour'] != '000000') //Over-ride for custom colours
 		$nc = $user[$u.'customcolour'];
 	else
-		$nc = powIdToColour($user[$u.'powerlevel']);
+		$nc = powIdToColour($user[$u.'rank']);
 
 	// Random username colour on birthday/special events
 	if (isset($rainbowusers) || isset($userbirthdays[$user[$u.'id']]))

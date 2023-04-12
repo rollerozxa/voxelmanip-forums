@@ -46,7 +46,7 @@ if ($where == 1) {
 			LEFT JOIN forums f ON f.id = t.forum
 			WHERE pt.text LIKE CONCAT('%', ?, '%') AND ? >= f.minread
 			ORDER BY p.id",
-		[$query, $loguser['powerlevel']]);
+		[$query, $loguser['rank']]);
 
 	for ($i = 1; $post = $posts->fetch(); $i++) {
 		if ($i == 1) echo '</table>';
@@ -67,12 +67,12 @@ if ($where == 1) {
 			LEFT JOIN forums f ON f.id = t.forum
 			WHERE t.title LIKE CONCAT('%', ?, '%') AND ? >= f.minread
 			ORDER BY t.lastdate DESC LIMIT ?,?",
-		[$query, $loguser['powerlevel'], ($page - 1) * $loguser['tpp'], $loguser['tpp']]);
+		[$query, $loguser['rank'], ($page - 1) * $loguser['tpp'], $loguser['tpp']]);
 
 	$threadcount = $sql->result("SELECT COUNT(*) FROM threads t
 			LEFT JOIN forums f ON f.id=t.forum
 			WHERE t.title LIKE CONCAT('%', ?, '%') AND ? >= f.minread",
-		[$query, $loguser['powerlevel']]);
+		[$query, $loguser['rank']]);
 
 	?><tr class="c">
 		<td class="b h">Title</td>
