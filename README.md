@@ -1,4 +1,4 @@
-# Cirrusboard
-Cirrusboard is a hobbyist forum software written in PHP, powering [Voxelmanip Forums](https://forum.voxelmanip.se) and more.
+# Cirrusboard (Voxelmanip Forums)
+This repo contains the branch of Cirrusboard that runs the Voxelmanip Forums. It contains some changes
 
-For more information, including installation instructions, see the [Cirrusboard Wiki](https://cirrus.voxelmanip.se).
+If you want to run your own forum you're likely looking for [Cirrusboard](https://cirrus.voxelmanip.se) instead.

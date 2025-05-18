@@ -17,14 +17,5 @@ conf/*
 !conf/config.sample.php
 !conf/faq.sample.php
 
-# Misc.
-uploader/
-
-# Don't check in VMF-specific assets
-static/assets/voxelmanip_forums.png
-static/assets/voxelmanip_forums*
-static/assets/poweredbyvoxelmanip.png
-static/smilies/
-
 # Cluttered drawer of stuff
 contrib/

@@ -30,12 +30,6 @@ $config['html'] = false;
 // as users with post layouts will be cut in half and create trailing HTML elements that break the layout.
 $config['postlayouts'] = true;
 
-// Uncomment to replace the footer with your own thing. We won't mind if you remove the credits from the footer!
-// (As long as it remains in the /credits page and the LICENSE file is kept)
-//$config['customfooter'] = <<<HTML
-// (put some stuff inside here)
-//HTML;
-
 // Enable maintenance mode, which will show a message to members and logged out users.
 $config['maintenance'] = false;
 // Message for maintenance mode.
