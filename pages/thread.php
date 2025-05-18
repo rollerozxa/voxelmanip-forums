@@ -37,6 +37,13 @@ $offset = (($page - 1) * $ppp);
 
 if ($viewmode == 'thread') {
 
+	// HACK: Redirect old thread IDs to corresponding page on the old android games archive
+	if ($id == 5) redirect("https://android.voxelmanip.se/games/shakytower");
+	if ($id == 6) redirect("https://android.voxelmanip.se/games/knockheads");
+	if ($id == 20) redirect("https://android.voxelmanip.se/games/cubedise");
+	if ($id == 34) redirect("https://android.voxelmanip.se/games/atilt-3d-labyrinth");
+	if ($id == 35) redirect("https://android.voxelmanip.se/games/push-roll");
+
 	$readtime = ($log ? ', r.time frtime' : '');
 	$forumsread = ($log ? "LEFT JOIN forumsread r ON (r.fid=f.id AND r.uid=".$userdata['id'].") " : '');
 

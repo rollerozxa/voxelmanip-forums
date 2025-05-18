@@ -1,4 +1,7 @@
 <?php
+error('Registration has been disabled',
+	'Registrations to the Voxelmanip Forums have been disabled for the time being. <br><br>If you would like to register anyways then please <a href="https://voxelmanip.se/about/#contact">contact ROllerozxa</a> through some means.');
+
 $error = [];
 
 if (isset($_POST['action'])) {
