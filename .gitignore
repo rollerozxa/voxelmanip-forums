@@ -3,14 +3,9 @@ vendor/
 
 # Compiled CSS
 static/css/
-static/themes/voxelmanip_retro/style.css
 
-# Cache
-templates/cache/
-
-# Userpics
-static/userpic/*
-!static/userpic/.gitkeep
+# Data
+data/
 
 # Config directory
 conf/*
