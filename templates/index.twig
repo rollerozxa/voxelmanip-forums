@@ -18,7 +18,15 @@
 </table><br>#}
 
 {% if log %}
-	<a class="float-right" href="./?action=markread&fid=all">{{ __("Mark all forums read") }}</a>
+	<div class="breadcrumb">
+		&nbsp;
+		<div class="actions">
+			<ul class="float-right pipemenu">
+			<li><a href="invites">Generate invite codes</a></li>{#
+			#}<li><a href="./?action=markread&fid=all">{{ __("Mark all forums read") }}</a></li>
+			</ul>
+		</div>
+	</div>
 {% endif %}
 
 {% if news %}

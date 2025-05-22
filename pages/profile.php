@@ -17,6 +17,13 @@ if ($profile['birthday']) {
 		.' ('.intval($currdate->diff($birthdate)->format("%Y")).' years old)';
 }
 
+$invites = result("SELECT COUNT(*) FROM invites WHERE inviter = ?", [$profile['id']]);
+$invitedBy = fetch("SELECT $userfields i.code FROM invites i JOIN users u ON i.inviter WHERE i.invitee = ?", [$profile['id']]);
+
+$inviteInfo = sprintf(
+	"%s &ndash; Has invited $invites member%s",
+$invitedBy ? "Invited by ".userlink($invitedBy, 'u_') : "Seed user", $invites != 1 ? 's' : '');
+
 $profilefields = [
 	__("General information") => [
 		__('Name')			=> $profile['name'],
@@ -25,6 +32,7 @@ $profilefields = [
 		__('Total posts')	=> sprintf('%s (%1.02f per day)', $profile['posts'], $profile['posts'] / $days),
 		__('Total threads')	=> sprintf('%s (%1.02f per day)', $profile['threads'], $profile['threads'] / $days),
 		__('Registered on')	=> sprintf('%s (%s)', dateformat($profile['joined']), relTime($profile['joined'])),
+		__('Invitation info') => $inviteInfo,
 		__('Last post')		=> ($profile['lastpost'] ? sprintf('%s (%s)', dateformat($profile['lastpost']), relTime($profile['lastpost'])) : "None"),
 		__('Last view')		=> sprintf('%s (%s)', dateformat($profile['lastview']), relTime($profile['lastview']))
 	],

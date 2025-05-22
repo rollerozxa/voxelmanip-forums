@@ -47,3 +47,17 @@ if (mfback = document.getElementById('mfback')) {
 		window.location = 'manageforums';
 	});
 }
+
+// Invites
+
+document.querySelectorAll(".copiable").forEach(
+	element => element.addEventListener("click", () => {
+		const range = document.createRange();
+		range.selectNodeContents(element);
+		const selection = window.getSelection();
+		selection.removeAllRanges();
+		selection.addRange(range);
+
+		document.execCommand("copy");
+	}
+));

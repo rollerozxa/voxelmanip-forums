@@ -60,6 +60,21 @@ CREATE TABLE `guests` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
+CREATE TABLE `invites` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `code` varchar(32) NOT NULL,
+  `inviter` int(10) unsigned NOT NULL,
+  `invitee` int(10) unsigned DEFAULT NULL,
+  `generated` int(10) unsigned NOT NULL,
+  `claimed` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `inviter` (`inviter`),
+  KEY `invitee` (`invitee`),
+  CONSTRAINT `invites_ibfk_1` FOREIGN KEY (`inviter`) REFERENCES `users` (`id`),
+  CONSTRAINT `invites_ibfk_2` FOREIGN KEY (`invitee`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
 CREATE TABLE `posts` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user` int(10) unsigned NOT NULL,

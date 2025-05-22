@@ -1,13 +1,12 @@
 <?php
-error('Registration has been disabled',
-	'Registrations to the Voxelmanip Forums have been disabled for the time being. <br><br>If you would like to register anyways then please <a href="https://voxelmanip.se/about/#contact">contact ROllerozxa</a> through some means.');
-
 $error = [];
 
 if (isset($_POST['action'])) {
 	$name = trim($_POST['name'] ?? null);
 	$pass = $_POST['password'] ?? null;
 	$pass2 = $_POST['password2'] ?? null;
+
+	$invite = strtoupper(str_replace(' ', '', $_REQUEST['invite'] ?? null));
 
 	// Check to see user should be able to register...
 
@@ -29,6 +28,9 @@ if (isset($_POST['action'])) {
 	if (result("SELECT COUNT(*) FROM users WHERE ip = ?", [$ipaddr]) && !DEBUG)
 		$error[] = __("Creating multiple accounts (alts) aren't allowed.");
 
+	if (result("SELECT COUNT(*) FROM invites WHERE code = ? AND invitee IS NULL", [$invite]) != 1)
+		$error[] = "Invalid or claimed invite code.";
+
 	// If no error found, it will register and redirect to index page.
 	// Otherwise register page will be shown again, with $error displayed to the user.
 
@@ -47,6 +49,11 @@ if (isset($_POST['action'])) {
 		// If user is ID 1, make them root.
 		if ($id == 1) query("UPDATE users SET rank = 4 WHERE id = ?", [$id]);
 
+		if ($invite) {
+			query("UPDATE invites SET invitee = ?, claimed = ? WHERE code = ?",
+				[$id, time(), $invite]);
+		}
+
 		// Log in user right away.
 		setcookie('token', $token, 2147483647);
 
@@ -54,7 +61,14 @@ if (isset($_POST['action'])) {
 	}
 }
 
+if (isset($_GET['invite'])) {
+	$invitedBy = result("SELECT u.name FROM invites i
+		JOIN users u ON i.inviter = u.id
+		WHERE i.code = ? AND i.invitee IS NULL", [$_GET['invite']]);
+}
+
 twigloader()->display('register.twig', [
 	'error' => $error,
-	'name' => $name ?? null
+	'name' => $name ?? null,
+	'invited_by' => $invitedBy ?? null
 ]);

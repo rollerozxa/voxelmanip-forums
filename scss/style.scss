@@ -84,13 +84,19 @@ a:active, a:hover	{ color: #FFFFFF }
 .w-32px  { width: 32px;  }
 .w-60px  { width: 60px;  }
 .w-64px  { width: 64px;  }
+.w-100px { width: 100px; }
 .w-120px { width: 120px; }
 .w-130px { width: 130px; }
 .w-140px { width: 140px; }
 .w-150px { width: 150px; }
 .w-175px { width: 175px; }
 .w-180px { width: 180px; }
+.w-420px { width: 420px; }
 .h-40px  { height: 40px; }
+
+.copiable { cursor: pointer; }
+
+.strikethrough { text-decoration: line-through; }
 
 .two-columns {
 	display: block;

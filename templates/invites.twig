@@ -1,0 +1,73 @@
+{% extends "_layout.twig" %}
+
+{% set title = "Invites" %}
+
+	{% block content %}
+{% if toomanycodes %}
+	<table class="c1">
+		<tr><td class="n1">You already have three active invite codes.</td></tr>
+	</table><br>
+{% endif %}
+
+<table class="c1">
+	<tr class="h"><td>Invites</td></tr>
+	<tr><td class="n1 center">
+		<p>Here you can create invites to invite others to the Voxelmanip Forums.</p>
+
+		<p>You can have at most three codes active, but you can generate however many codes you want. Either give the invite code which the invited user can put in the registration form, or use a direct link with the invite code included which you can copy and send.</p>
+
+		<form method="POST">
+			<input type="hidden" name="generatecode" value="yes">
+			<p><input type="submit" class="submit" name="action" value="Generate code"></p>
+		</form>
+	</td></tr>
+</table>
+
+<br>
+
+<table class="c1" style="max-width:1180px;margin:auto">
+	<tr class="h">
+		<td class="w-420px">Code</td>
+		<td class="w-100px">Status</td>
+		<td class="nom w-180px">Inviter</td>
+		<td class="nom w-150px">Generation date</td>
+		<td class="nom w-180px">Invitee</td>
+		<td class="nom w-150px">Date of invitation</td>
+	</tr>
+	{% set i = 1 %}
+	{% for invite in invites %}
+		{% if i % 2 %}
+			{% set zebra = 1 %}
+		{% else %}
+			{% set zebra = 2 %}
+		{% endif %}
+
+		{% set used = invite.u2_id %}
+
+		<tr class="center n{{ zebra }}">
+			<td class="left">
+				<code class="{% if used %}strikethrough{% else %}copiable{% endif %}">{{ invite.code }}</code> {% if not used %}(<a href="register?invite={{ invite.code }}">Invite link</a>){% endif %}
+			</td>
+			<td>
+				{%- if used %}Used{% else %}Active{% endif -%}
+			</td>
+			<td class="nom">
+				{{ userlink(invite, 'u1_') }}
+			</td>
+			<td class="nom">
+				{{- invite.generated | date('Y-m-d H:i') -}}
+			</td>
+			<td class="nom">
+				{%- if used %}{{ userlink(invite, 'u2_') }}{% else %}None{% endif -%}
+			</td>
+			<td class="nom">
+				{%- if used %}{{ invite.claimed | date('Y-m-d H:i') }}{% endif -%}
+			</td>
+		</tr>
+		{% set i = i + 1 %}
+	{% endfor %}
+	{% if i == 1 %}
+		<tr><td class="n1 center" colspan="6"><p>No codes generated.</p></td></tr>
+	{% endif %}
+</table>
+	{% endblock %}
