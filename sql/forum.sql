@@ -3,7 +3,6 @@
 SET NAMES utf8;
 SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
-SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
 SET NAMES utf8mb4;
 
@@ -137,6 +136,19 @@ CREATE TABLE `threadsread` (
   KEY `tid` (`tid`),
   CONSTRAINT `threadsread_ibfk_1` FOREIGN KEY (`uid`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   CONSTRAINT `threadsread_ibfk_2` FOREIGN KEY (`tid`) REFERENCES `threads` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+CREATE TABLE `uploader_files` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `fileid` char(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `filename` varchar(256) NOT NULL,
+  `description` varchar(256) NOT NULL,
+  `user` int(10) unsigned NOT NULL,
+  `date` int(10) unsigned NOT NULL,
+  `deleted` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `key` (`fileid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 

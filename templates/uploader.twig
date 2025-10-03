@@ -1,0 +1,50 @@
+{% extends "_layout.twig" %}
+
+{% set title = "Uploader" %}
+
+	{% block content %}
+<form action="uploader_upload" method="post" enctype="multipart/form-data"><table class="c1" style="width:auto;margin:auto">
+	<tr class="h"><td colspan="2">Upload</td></tr>
+	<tr>
+		<td class="n1 center" width="150">File:</td>
+		<td class="n2"><input type="file" name="uploadedfile" size="40"></td>
+	</tr><tr>
+		<td class="n1 center">Description:</td>
+		<td class="n2"><input type="text" name="description" size="45" maxlength="256"></td>
+	</tr><tr>
+		<td class="n1 center"></td>
+		<td class="n2 sfont">
+			By uploading files to the uploader, you agree that you will only upload files that you own the copyright to and/or have the permission to upload.
+			<br>You should neither upload files that are malicious or any other type of objectionable content.
+			<br>Usage of this uploader is only intended to host files related to the Voxelmanip Forums, it is not a general-purpose file host.
+			<br>We reserve the right to remove any files uploaded.
+		</td>
+	</tr><tr>
+		<td class="n1 center"></td>
+		<td class="n2"><input type="submit" name="action" value="Upload"></td>
+	</tr>
+</table></form>
+
+<br><table class="c1">
+	<tr class="h">
+		<td width="270">File</td>
+		<td>Description</td>
+		<td width="190">Uploaded by</td>
+		<td width="150">Date</td>
+		<td width="120">Size</td>
+		{% if userdata.rank > 2 %}<td class="b h" width="24"></td>{% endif %}
+	</tr>
+	{% for file in files %}
+		<tr class="n1">
+			<td><a href="{{ upload_url(file.fileid, file.filename) }}">{{ file.filename }}</a></td>
+			<td>{{ file.description }}</td>
+			<td class="center">{{ userlink(file, 'u_') }}</td>
+			<td class="center">{{ file.date | date('Y-m-d H:i') }}</td>
+			<td class="center">{{ get_size(file.fileid, file.filename) }}</td>
+			{% if userdata.rank > 3 %}
+				<td class="center"><a href="uploader?delete={{ file.fileid }}"><img src="../smilies/no.png" align="absmiddle"></a></td>
+			{% endif %}
+		</tr>
+	{% endfor %}
+</table>
+	{% endblock %}

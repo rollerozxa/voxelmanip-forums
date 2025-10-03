@@ -29,7 +29,10 @@ class ForumExtension extends \Twig\Extension\AbstractExtension {
 
 			new \Twig\TwigFunction('forumlist', 'forumlist', SAFE_HTML),
 
-			new \Twig\TwigFunction('__', '__', SAFE_HTML)
+			new \Twig\TwigFunction('__', '__', SAFE_HTML),
+
+			new \Twig\TwigFunction('get_size', 'getSize', SAFE_HTML),
+			new \Twig\TwigFunction('upload_url', 'uploadUrl', SAFE_HTML),
 		];
 	}
 
