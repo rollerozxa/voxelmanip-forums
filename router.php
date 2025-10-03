@@ -18,6 +18,9 @@ function fallback() {
 }
 
 if (isset($path[1]) && $path[1] != '') {
+	if (isset($path[2]))
+		error('404');
+
 	if (file_exists('pages/'.$path[1].'.php'))
 		require('pages/'.$path[1].'.php');
 	elseif ($path[1] == 'credits')
