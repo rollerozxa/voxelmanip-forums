@@ -1,6 +1,6 @@
 <?php
 
-if ($userdata['rank'] < 1) die('permission denied');
+if (!IS_ADMIN) die('permission denied');
 
 $action = $_POST['action'] ?? null;
 $file = $_FILES['uploadedfile'] ?? null;
