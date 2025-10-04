@@ -1,6 +1,6 @@
 <?php
 
-if (!IS_ADMIN) die('permission denied');
+if (IS_BANNED) die('permission denied');
 
 $action = $_POST['action'] ?? null;
 $file = $_FILES['uploadedfile'] ?? null;
@@ -33,7 +33,9 @@ $newest = result("SELECT date FROM uploader_files WHERE user = ? ORDER BY date D
 if ($newest >= (time() - 60) && $userdata['rank'] < 3)
 	error('403', "You're uploading files too fast, please wait a while before uploading again.");
 
-$fileId = generateId();
+$fileId = null;
+while ($fileId === null || result("SELECT COUNT(*) FROM uploader_files WHERE fileid = ?", [$fileId]) != 0)
+	$fileId = generateId();
 
 $returnCode = move_uploaded_file($temp, uploadPath($fileId, $fname));
 

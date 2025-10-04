@@ -1,6 +1,7 @@
 <?php
+needsLogin();
 
-$notdeleted = ($userdata['rank'] < 2 ? 'WHERE f.deleted = 0' : '');
+$notdeleted = !IS_MOD ? 'WHERE f.user = '.$userdata['id'] : '';
 $ufields = userfields();
 $files = query("SELECT $ufields f.*
 		FROM uploader_files f JOIN users u ON u.id = f.user
