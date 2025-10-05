@@ -210,6 +210,14 @@ a:active, a:hover	{ color: #FFFFFF }
 	}
 }
 
+.postimg {
+	max-width: 800px;
+}
+.thumbimg {
+	max-width: 300px;
+	max-height: 300px;
+}
+
 .codeblock {
 	background-color: #151515;
 	color: #50fc5e;

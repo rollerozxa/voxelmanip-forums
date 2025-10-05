@@ -73,19 +73,24 @@ function postfilter($text) {
 	$text = preg_replace("'\[i\](.*?)\[/i\]'si", '<i>\\1</i>', $text);
 	$text = preg_replace("'\[u\](.*?)\[/u\]'si", '<u>\\1</u>', $text);
 	$text = preg_replace("'\[s\](.*?)\[/s\]'si", '<s>\\1</s>', $text);
-
-	// Little bit more advanced stuff
-	$text = preg_replace("'\[spoiler\](.*?)\[/spoiler\]'si", '<span class="spoiler" onclick=""><span class="container">\\1</span></span>', $text);
-	$text = preg_replace("'\[url\](.*?)\[/url\]'si", '<a href=\\1>\\1</a>', $text);
-	$text = preg_replace("'\[url=(.*?)\](.*?)\[/url\]'si", '<a href=\\1>\\2</a>', $text);
-	$text = preg_replace("'\[img\](.*?)\[/img\]'si", '<img src=\\1>', $text);
 	$text = preg_replace("'\[color=([a-f0-9]{6})\](.*?)\[/color\]'si", '<span style="color:#\\1">\\2</span>', $text);
+
+	// URLs
+	$text = preg_replace("'\[url\](.*?)\[/url\]'si", '<a href="\\1">\\1</a>', $text);
+	$text = preg_replace("'\[url=(.*?)\](.*?)\[/url\]'si", '<a href="\\1">\\2</a>', $text);
+
+	// Images
+	$text = preg_replace("'\[img\](.*?)\[/img\]'si", '<img class="postimg" src="\\1">', $text);
+	$text = preg_replace("'\[imgs\](.*?)\[/imgs\]'si", '<a href="\\1"><img class="thumbimg" src="\\1"></a>', $text);
+
+	// Spoilers
+	$text = preg_replace("'\[spoiler\](.*?)\[/spoiler\]'si", '<span class="spoiler" onclick=""><span class="container">\\1</span></span>', $text);
 
 	// Userlinks and post links
 	$text = preg_replace_callback('\'@\"((([^"]+))|([A-Za-z0-9_\-%]+))\"\'si', "get_username_link", $text);
 	$text = preg_replace("'>>([0-9]+)'si", '>><a href=thread?pid=\\1#\\1>\\1</a>', $text);
 
-	// Quotes (not from cave story LOL)
+	// Quotes
 	$text = preg_replace("'\[quote\](.*?)\[/quote\][\n\r]*'si", '<div class="quote"><div class="quotetext">\\1</div></div>', $text);
 	$text = preg_replace("'\[quote=\"(.*?)\" id=\"(.*?)\"\][\n\r]*'si", '<div class="quote"><div class="author"><a href=thread?pid=\\2#\\2>Posted by \\1</a></div><div class="quotetext">', $text);
 	$text = preg_replace("'\[quote=(.*?)\][\n\r]*'si", '<div class="quote"><div class="author">Posted by \\1</div><div class="quotetext">', $text);
