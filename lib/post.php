@@ -138,7 +138,7 @@ function posttoolbar() {
 			.posttoolbutton('>_', 'Code', 'code')
 			.posttoolbutton(';', 'Preformatted text', 'pre')
 			.'<td>&nbsp;</td>'
-			.posttoolbutton('[]', 'Image', 'img')
+			.posttoolbutton('IMG', 'Image (thumbnail)', 'img')
 			.posttoolbutton('YT', 'YouTube embed', 'youtube')
 			.'<td>&nbsp;</td><td><a href="faq#smile" target="_blank">More...</a></td>'
 			.'</tr></table>';
