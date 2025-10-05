@@ -1,0 +1,56 @@
+a:link		{ color: #dd88a2 }
+a:visited	{ color: #a3516a }
+a:active	{ color: #fecbdb }
+a:hover		{ color: #beb0fd }
+
+body {
+	background: url(bg1.png) #000000;
+}
+
+table.c1 {
+	background: black;
+	border: #555555 1px solid;
+	border-width: 1px 2px;
+}
+
+tr.h {
+	background: url(bg2.png) #000000;
+	font-size: 0.95em;
+	font-weight: bold;
+	color: #dddddd;
+}
+
+tr.c {
+	background: url(bg3.png) #000000;
+	font-size: 0.95em;
+	color: #eeeeee;
+}
+
+td {
+	border: #555555 1px solid;
+	padding: 4px;
+}
+
+td.nb {
+	border: 0px none;
+	padding: 3px;
+}
+
+tr.n1, td.n1 { background: url(bg4.png) #000000; }
+tr.n2, td.n2 { background: url(bg5.png) #000000; }
+tr.n3, td.n3 { background: url(bg4.png) #000000; }
+
+.sfont {
+	font-size: 0.95em;
+}
+
+textarea, input, select, button {
+	border: #a3516a ridge 3px;
+	background: #000000;
+	color: #FFFFFF;
+}
+
+.submit {
+	border: #a3516a ridge 3px;
+	color: #dd88a2;
+}

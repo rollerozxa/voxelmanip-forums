@@ -1,0 +1,55 @@
+a:link, a:visited	{ color: #ffc040 }
+a:active, a:hover	{ color: #ffffff }
+
+body {
+	background: url("wood.jpg") #643007;
+	color: #ffffff;
+	text-shadow: 2px 2px 2px black;
+}
+
+table.c1 {
+	text-shadow: 0 0 0 black;
+	box-shadow: 0 0 4px 2px #000;
+}
+
+tr.h {
+	background: #361B08;
+	background: rgba(0, 0, 0, 0.75);
+	font-weight: bold;
+}
+
+tr.h td {
+	box-shadow: inset 0px 1px 0px 0px rgba(255,255,255,0.25);
+	padding: 5px;
+}
+
+tr.c {
+	background: #361B08;
+	background: rgba(25, 0, 0, 0.65);
+}
+
+td {
+	padding: 3px;
+	border: 1px solid black;
+}
+
+.n1 { background: #462208; background: rgba(0, 0, 0, .60); }
+.n2 { background: #3B1E09; background: rgba(0, 0, 0, .40); }
+.n3 { background: #934003; background: rgba(0, 0, 0, .20); }
+
+.postformatting button {
+	margin: 4px;
+	padding: 2px 6px;
+}
+
+textarea, input, select, button {
+	border: #643007 inset 2px;
+	color: #FFFFFF;
+	background: #24150A;
+	background: rgba(0, 0, 0, 0.25);
+}
+
+input[type=submit], button {
+	border: #643007 outset 2px;
+	background: url("wood.jpg") #643007;
+}

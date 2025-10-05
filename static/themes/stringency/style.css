@@ -1,0 +1,62 @@
+
+a:link		{color:#5090AF}
+a:visited	{color:#406090}
+a:active	{color:#709AAF}
+a:hover		{color:#FFCF00}
+
+body {
+	background: url(back2c.png) #303030;
+	color: #e0e0ff;
+}
+
+table.c1 {
+	width: 100%;
+	background: url(25black.png);
+	border: #666 1px solid;
+	border-collapse: separate;
+}
+
+tr.h, tr.h td, tr.c, tr.c td {
+	text-align: center;
+	font-size: 0.9em;
+}
+
+tr.h {
+	background: url(backh.png);
+	font-weight: bold;
+	color: #000;
+}
+
+tr.c {
+	background: url(backc2.png) #303048;
+	color: #eee;
+}
+
+td {
+	border-left: #000 1px solid;
+	border-top: #000 1px solid;
+	padding: 3px;
+}
+
+tr.h td {
+	border-left: 0;
+	border-right: 0;
+}
+
+tr.n1, td.n1 { background: url(back2t1.png); }
+
+tr.n2, td.n2 { background: url(back2t2.png); }
+
+tr.n3, td.n3 { background: url(back2t3.png); }
+
+textarea, input, select {
+	border: #777 ridge 2px;
+	background: #000;
+	color: #fff;
+}
+
+.submit {
+	border: #ffd040 ridge 2px;
+	color: #ffd040;
+	font-weight: bold;
+}

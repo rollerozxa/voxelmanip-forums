@@ -1,0 +1,25 @@
+
+a:link, a:visited	{ color: #ffc040 }
+a:active, a:hover	{ color: #ffffff }
+
+body {
+	background: black url('greennightbg.png');
+	color: #efe;
+}
+
+table.c1, td {
+	border: 1px solid #208000;
+	padding: 5px;
+}
+
+.h { background: #041000 url('gradient.png') repeat-x; border: 0 !important }
+.c { background: #0c3000; }
+
+.n1, .n3 { background: #082000; }
+.n2 { background: #041000; }
+
+textarea, input, select, button {
+	border: 1px solid #208000;
+	background-color: black;
+	color: #efe;
+}

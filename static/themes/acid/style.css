@@ -1,0 +1,63 @@
+
+a:link, a:visited, a:active { color: #6fc600; }
+a:hover { color: #b3ff00; }
+
+body {
+	color: #b4bfaa;
+	background: url(back2c.png) #303030;
+}
+
+table.c1 {
+	border: 0px none;
+	border-collapse: separate;
+}
+
+tr.h {
+	background-color: #1d1d1d;
+	background-image: url(cellh.png);
+	background-position: center;
+	text-align: center;
+	vertical-align: middle;
+	color: #bdc7b4;
+	font-weight: bold;
+	height: 30px;
+}
+
+tr.c {
+	font-weight: bold;
+	color: #b4bfaa;
+	padding: 8px;
+	margin: 0px;
+	background-color: #1D1D1D;
+	background-image: url(cellc.png);
+	height: 28px;
+}
+
+td {
+	border-left: #2e2e2e 1px solid;
+	border-top: #2e2e2e 1px solid;
+	padding: 4px;
+}
+
+tr.h td {
+	border-left: 0;
+	border-right: 0;
+}
+
+tr.n1,td.n1, tr.n2,td.n2, tr.n3,td.n3 {
+	background-color: #1D1D1D;
+	border-bottom: #000000 1px solid;
+	border-left: #2E2E2E 1px solid;
+	border-spacing: 4px;
+}
+
+select, textarea, input, button {
+	vertical-align: middle;
+	color: #B4FF00;
+	border: 1px solid #B4FF00;
+	background-color: #0A0A0A;
+}
+
+.submit {
+	border: 3px solid #B4FF00;
+}

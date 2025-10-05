@@ -1,0 +1,44 @@
+a:link, a:visited	{ color: #ffc040 }
+a:active, a:hover	{ color: #ffffff }
+
+body {
+	background: #13133a;
+	color: white;
+}
+
+table.c1 {
+	border: #0e0e0e 2px solid;
+}
+
+tr.h {
+	background: #5d60a3;
+	font-weight: bold;
+	color: #dddddd;
+	border: 0 !important;
+}
+
+tr.c {
+	background: #4750b1;
+	font-size: 0.9em;
+	color: #eeeeee;
+}
+
+td {
+	padding: 4px;
+	border: #000000 1px solid;
+}
+
+.n1 { background: #333a86; }
+.n2 { background: #23275e; }
+.n3 { background: #202353; }
+
+textarea, input, select, button {
+	border: #7777DD ridge 2px;
+	background: #000000;
+	color: #FFFFFF;
+}
+
+input[type=submit] {
+	border: #ffd040 ridge 2px;
+	color: #ffd040;
+}

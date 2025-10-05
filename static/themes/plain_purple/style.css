@@ -1,0 +1,51 @@
+
+a:link, a:visited {color:#a6a1d4}
+a:active, a:hover {color:#d3d0ea}
+
+body {
+	color: #cbe9f8;
+	background: #1a0b36;
+}
+
+table.c1 {
+	border-collapse: separate;
+	border: #4d42a8 1px solid;
+}
+
+tr.h {
+	background: #36258a;
+	font-weight: bold;
+}
+
+tr.c {
+	background: #2f1c74;
+}
+
+tr.h, tr.c {
+	color: #eee;
+	font-size: 0.95em;
+}
+
+td {
+	border-left: 1px solid black;
+	border-top: 1px solid black;
+	padding: 5px;
+}
+
+td.nb {
+	border: 0px none;
+}
+
+tr.n1, td.n1 { background: rgba(29,12,67,0.5); }
+tr.n2, td.n2 { background: rgba(21, 9,43,0.5); }
+tr.n3, td.n3 { background: rgba(12, 5,18,0.5); }
+
+.sfont {
+	font-size: 0.9em;
+}
+
+textarea, input, select, button {
+	border: #777 ridge 2px;
+	background: #000;
+	color: #fff;
+}

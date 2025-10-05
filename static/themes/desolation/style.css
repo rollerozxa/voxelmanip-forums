@@ -1,0 +1,59 @@
+
+a:link { color: #dddddd }
+a:visited { color: #cccccc }
+a:active, a:hover { color: #ffffff}
+
+body {
+	background: url('snow_2.jpg') #1b1b1b;
+	background-attachment: fixed;
+	background-size: 100%;
+
+	background-repeat: round;
+}
+
+table {
+	color: #aaa;
+}
+
+table.c1 {
+	border: #000000 1px solid;
+	border-collapse: collapse;
+}
+
+tr.h {
+	background: url(tdbgh.png);
+	font-size: 0.9em;
+	font-weight: bold;
+	color: #ddd;
+}
+
+tr.c {
+	background: url(tdbgc.png);
+	font-size: 0.9em;
+	color: #eee;
+}
+
+td {
+	border: #000000 1px solid;
+	padding: 4px;
+}
+
+td.nb {
+	border: 0px none;
+	padding: 3px;
+}
+
+tr.n1, td.n1 { background: url(tdbg3.png); }
+tr.n2, td.n2 { background: url(tdbg2.png); }
+tr.n3, td.n3 { background: url(tdbg1.png); }
+
+textarea, input, select, button {
+	border: #222 outset 1px;
+	background: #111;
+	color: #fff;
+}
+
+.submit {
+	border: #444 outset 2px;
+	color: #fff;
+}
