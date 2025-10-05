@@ -16,13 +16,7 @@ $ranktable = '';
 foreach ($ranks as $id => $title)
 	$ranktable .= sprintf('<td class="n1 w-120px"><b><span style="color:#%s">%s</span></b></td>', rankIdToColour($id), $title);
 
-if (file_exists('conf/faq.php'))
-	require('conf/faq.php');
-elseif (file_exists('conf/faq.sample.php'))
-	require('conf/faq.sample.php');
-else
-	error('404', 'There is no FAQ defined.');
-
+require('data/faq.php');
 
 twigloader()->display('faq.twig', [
 	'faq' => $faq

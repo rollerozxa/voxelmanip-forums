@@ -58,7 +58,7 @@
 
 {% if viewmode == "thread" and log and userdata.rank >= thread.minreply and not thread.closed %}
 <form action="newreply?id={{ id }}" method="POST"><table class="c1 postform">
-	<tr class="h"><td>{{ __("Quick Reply") }}</a></td>
+	<tr class="h"><td>{{ __("Quick Reply") }}</td></tr>
 	<tr class="n1"><td class="center">
 		<textarea class="postform" name="message" rows="8" cols="80"></textarea>
 

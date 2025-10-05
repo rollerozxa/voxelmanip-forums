@@ -1,16 +1,5 @@
 # Composer
 vendor/
 
-# Compiled CSS
-static/css/
-
 # Data
 data/
-
-# Config directory
-conf/*
-!conf/config.sample.php
-!conf/faq.sample.php
-
-# Cluttered drawer of stuff
-contrib/
