@@ -18,7 +18,7 @@ if ($profile['birthday']) {
 }
 
 $invites = result("SELECT COUNT(*) FROM invites WHERE inviter = ? AND invitee IS NOT NULL", [$profile['id']]);
-$invitedBy = fetch("SELECT $userfields i.code FROM invites i JOIN users u ON i.inviter WHERE i.invitee = ?", [$profile['id']]);
+$invitedBy = fetch("SELECT $userfields i.code FROM invites i JOIN users u ON i.inviter = u.id WHERE i.invitee = ?", [$profile['id']]);
 
 $inviteInfo = sprintf(
 	"%s &ndash; Has invited $invites member%s",
