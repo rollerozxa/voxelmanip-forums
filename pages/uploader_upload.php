@@ -1,6 +1,6 @@
 <?php
 
-if (IS_BANNED) die('permission denied');
+if (IS_BANNED || $userdata['joined'] > time() - 1*30*24*3600) die('permission denied');
 
 $action = $_POST['action'] ?? null;
 $file = $_FILES['uploadedfile'] ?? null;
