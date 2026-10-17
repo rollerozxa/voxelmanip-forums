@@ -24,16 +24,6 @@
 			<input type="password" name="password2" size="25" maxlength="64">
 		</div>
 
-		<div>
-			{% if invited_by %}
-				<em>You are being invited by {{ invited_by }}. Welcome!</em>
-			{% else %}
-				<span>Invite code</span>
-				<input type="text" name="invite" size="25" maxlength="32">
-				<br><br><a href="faq#invite">Where do I get an invite code?</a>
-			{% endif %}
-		</div>
-
 		{% if log %}
 			<div><p>(You are already logged in.)</p></div>
 		{% else %}
