@@ -47,8 +47,8 @@ function newPost($data) {
 			WHERE id = ?",
 		[$data['time'], $data['u_id'], $pid, $data['thread']]);
 
-	query("UPDATE users SET posts = posts + 1 WHERE id = ?",
-		[$data['u_id']]);
+	query("UPDATE users SET posts = posts + 1, lastpost = ? WHERE id = ?",
+		[$data['time'], $data['u_id']]);
 
 	if (!isset($data['newthread'])) {
 		// nuke entries of this thread in the "threadsread" table
