@@ -80,8 +80,8 @@ function postfilter($text) {
 	$text = preg_replace("'\[url=(.*?)\](.*?)\[/url\]'si", '<a href="\\1">\\2</a>', $text);
 
 	// Images
-	$text = preg_replace("'\[img\](.*?)\[/img\]'si", '<img class="postimg" src="\\1">', $text);
-	$text = preg_replace("'\[imgs\](.*?)\[/imgs\]'si", '<a href="\\1"><img class="thumbimg" src="\\1"></a>', $text);
+	$text = preg_replace("'\[img\](.*?)\[/img\]'si", '<div class="postimg"><img src="\\1"></div>', $text);
+	$text = preg_replace("'\[imgs\](.*?)\[/imgs\]'si", '<a href="\\1" target="_blank"><img class="thumbimg" src="\\1"></a>', $text);
 
 	// Spoilers
 	$text = preg_replace("'\[spoiler\](.*?)\[/spoiler\]'si", '<span class="spoiler" onclick=""><span class="container">\\1</span></span>', $text);
@@ -141,7 +141,7 @@ function posttoolbar() {
 			.posttoolbutton('>_', 'Code', 'code')
 			.posttoolbutton(';', 'Preformatted text', 'pre')
 			.'<td>&nbsp;</td>'
-			.posttoolbutton('IMG', 'Image (thumbnail)', 'img')
+			.posttoolbutton('IMG', 'Image (thumbnail)', 'imgs')
 			.posttoolbutton('YT', 'YouTube embed', 'youtube')
 			.'<td>&nbsp;</td><td><a href="faq#smile" target="_blank">More...</a></td>'
 			.'</tr></table>';
