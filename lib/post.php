@@ -100,7 +100,7 @@ function postfilter($text) {
 	$text = preg_replace("'\[/reply\][\n\r]*'", '</div></div>', $text);
 
 	// Code block
-	$text = preg_replace_callback("'\[code\](.*?)\[/code\]'si", function ($match) use ($config) {
+	$text = preg_replace_callback("'\[code\][\n\r]*?(.*?)[\n\r]*?\[/code\][\n\r]?'si", function ($match) use ($config) {
 		$text = $config['html'] ? esc($match[1]) : $match[1];
 		return '<div class="codeblock">'.$text.'</div>';
 	}, $text);
