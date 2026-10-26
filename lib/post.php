@@ -100,8 +100,12 @@ function postfilter($text) {
 	$text = preg_replace("'\[/reply\][\n\r]*'", '</div></div>', $text);
 
 	// Code block
-	$text = preg_replace_callback("'\[code\][\n\r]*?(.*?)[\n\r]*?\[/code\][\n\r]?'si", function ($match) use ($config) {
-		$text = $config['html'] ? esc($match[1]) : $match[1];
+	$text = preg_replace_callback("'\[code\](.*?)\[/code\][\n\r]?'si", function ($match) use ($config) {
+		$text = trim($match[1]);
+		if ($config['html'])
+			$text = str_replace("&lt;", "<", $text);
+
+		$text = $config['html'] ? esc($text) : $text;
 		return '<div class="codeblock">'.$text.'</div>';
 	}, $text);
 	$text = preg_replace("'\[pre\](.*?)\[/pre\]'si", '<code>\\1</code>', $text);
